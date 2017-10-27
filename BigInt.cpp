@@ -1,4 +1,7 @@
 #include "BigInt.h"
+#include <algorithm>
+#include <sstream>
+#include <cstdio>
 #include <iostream>
 
 // reference: https://stackoverflow.com/questions/5661101/how-to-convert-an-unsigned-character-array-into-a-hexadecimal-string-in-c
@@ -20,6 +23,12 @@ byte BigInt::get(int index) const {
 
 void BigInt::put(byte value) {
 	values.push_back(value);
+}
+
+void BigInt::insert(int num) {
+	for(int i = 0; i < num; i ++) {
+		values.insert(values.begin(), 0);
+	}
 }
 
 // init BigInt from string
@@ -102,39 +111,32 @@ BigInt operator-(const BigInt& lop, const BigInt& rop) {
 BigInt multiplyOneDigit(const BigInt& lop, const BigInt& rop) {
 	BigInt result;
 	byte op2 = rop.get(0);
+	byte carry = 0;
 	for(int count = 0; count < lop.getLength(); count ++) {
-		
+		byte op1 = lop.get(count);
+		unsigned short two_digits_result = static_cast<unsigned short>(op1)*static_cast<unsigned short>(op2);
+		two_digits_result += carry;
+		carry = two_digits_result >> 8; // carry
+		byte digits_result = two_digits_result; // lower 8 bit
+		result.put(digits_result);
 	}
+	if(carry != 0) {
+		result.put(carry);
+	}
+	return result;
 }
 
 BigInt operator*(const BigInt& lop, const BigInt& rop) {
 	BigInt result;
+	result.put(0);
 	byte nextcarry = 0, currentcarry = 0;
-	byte op1split[2], op2split[2];
-	for(int count = 0; count < std::max(lop.getLength(), rop.getLength()); count ++) {
-		byte op1 = count < lop.getLength() ? lop.get(count) : 1;
-		byte op2 = count < rop.getLength() ? rop.get(count) : 1;
-		unsigned short two_digits_result = static_cast<unsigned short>(op1)*static_cast<unsigned short>(op2);
-		two_digits_result += currentcarry;
-		nextcarry = two_digits_result >> 8; // carry produced by multiplication
-		byte digits_result = two_digits_result; // need to add with current carry
-		currentcarry = nextcarry;
-		result.put(digits_result);
-		// op1split[0] = (op1 << 4);
-		// op1split[0] = op1split[0] >> 4;// lower 4 bits
-		// op1split[1] = (op1 >> 4); // upper 4 bits
-		// op2split[0] = (op2 << 4);
-		// op2split[0] = op2split[0] >> 4;// lower 4 bits
-		// op2split[1] = (op2 >> 4); // upper 4 bits
-		// byte lowermultiresult = op1split[0]*op2split[0];
-		// byte uppermultiresult = op1split[1]*op2split[1];
-		// nextcarry = uppermultiresult >> 4;
-		// uppermultiresult = uppermultiresult << 4;
-		// byte digits_result = uppermultiresult + lowermultiresult + currentcarry;
-		// if()
-	}
-	if(currentcarry != 0) {
-		result.put(currentcarry);
+	BigInt multiresults[rop.getLength()];
+	for(int count = 0; count < rop.getLength(); count ++) {
+		BigInt singlerop;
+		singlerop.put(rop.get(count));
+		multiresults[count] = multiplyOneDigit(lop, singlerop);
+		multiresults[count].insert(count);
+		result = result + multiresults[count];
 	}
 	return result;
 }

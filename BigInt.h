@@ -3,8 +3,6 @@
 
 #include <vector>
 #include <string>
-#include <algorithm>
-#include <sstream>
 
 typedef unsigned char byte;
 
@@ -19,7 +17,8 @@ public:
 	friend BigInt operator%(const BigInt& lop, const BigInt& rop);
 	std::string toHex();
 	int getLength() const;
-	void put(byte value);
+	void put(byte value); // put value to the rear
+	void insert(int num); // insert zero to the front
 	byte get(int index) const;
 	void setValue(std::string value);
 

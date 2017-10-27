@@ -3,9 +3,9 @@
 
 int main(int argc, char const *argv[]) {
 	BigInt p, q, s;
-	p.setValue("FFFF"); // 2876
+	p.setValue("873F"); // 2876
 	std::cout << "p equals " << p.toHex() << std::endl;
-	q.setValue("FFFF"); // 3547
+	q.setValue("12AD2"); // 3547
 	std::cout << "q equals " << q.toHex() << std::endl;
 	// s.put(34);
 	BigInt r = q * p;
