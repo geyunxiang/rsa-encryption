@@ -141,6 +141,23 @@ BigInt operator*(const BigInt& lop, const BigInt& rop) {
 	return result;
 }
 
+bool operator< (const BigInt& lop, const BigInt& rop) {
+	if(lop.getLength() < rop.getLength()) {
+		return true;
+	} else if(lop.getLength() > rop.getLength()) {
+		return false;
+	} else {
+		for(int i = lop.getLength()-1; i >= 0; i--) {
+			if(lop.get(i) < rop.get(i)) return true;
+		}
+		return false;
+	}
+}
+
+bool operator> (const BigInt& lop, const BigInt& rop) {
+	return rop < lop;
+}
+
 // private functions
 void BigInt::trim() {
 	while(values.size() > 0 && static_cast<int>(values.back()) == 0) {

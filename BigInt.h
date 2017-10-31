@@ -15,6 +15,8 @@ public:
 	friend BigInt operator*(const BigInt& lop, const BigInt& rop);
 	friend BigInt operator/(const BigInt& lop, const BigInt& rop);
 	friend BigInt operator%(const BigInt& lop, const BigInt& rop);
+	friend bool operator< (const BigInt& lop, const BigInt& rop);
+	friend bool operator> (const BigInt& lop, const BigInt& rop);
 	std::string toHex();
 	int getLength() const;
 	void put(byte value); // put value to the rear
