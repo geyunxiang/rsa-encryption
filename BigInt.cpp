@@ -31,6 +31,10 @@ void BigInt::insert(int num) {
 	}
 }
 
+void BigInt::insert(byte value) {
+	values.insert(values.begin(), value);
+}
+
 // init BigInt from string
 void BigInt::setValue(std::string value) {
 	unsigned int buf;

@@ -21,6 +21,7 @@ public:
 	int getLength() const;
 	void put(byte value); // put value to the rear
 	void insert(int num); // insert zero to the front
+	void insert(byte value); // insert value to high pos
 	byte get(int index) const;
 	void setValue(std::string value);
 
