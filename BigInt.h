@@ -16,8 +16,11 @@ public:
 	friend BigInt operator*(const BigInt& lop, const BigInt& rop);
 	friend BigInt operator/(const BigInt& lop, const BigInt& rop);
 	friend BigInt operator%(const BigInt& lop, const BigInt& rop);
+    friend BigInt operator++(const BigInt& lop);
 	friend bool operator< (const BigInt& lop, const BigInt& rop);
+    friend bool operator<= (const BigInt& lop, const BigInt& rop);
 	friend bool operator> (const BigInt& lop, const BigInt& rop);
+    friend bool operator>= (const BigInt& lop, const BigInt& rop);
 	friend bool operator== (const BigInt& lop, const BigInt& rop);
 	friend bool operator!= (const BigInt& lop, const BigInt& rop);
 	std::string toHex();// reference: https://stackoverflow.com/questions/5661101/how-to-convert-an-unsigned-character-array-into-a-hexadecimal-string-in-c
@@ -33,5 +36,9 @@ private:
 	void trim();
 	std::vector<byte> values;
 };
+
+BigInt pow(BigInt base, BigInt power);
+BigInt getRandom(BigInt lowerbound, BigInt upperbound); // both inclusive
+
 // BigInt trimmed();
 #endif

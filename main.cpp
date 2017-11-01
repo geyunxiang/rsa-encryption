@@ -1,15 +1,24 @@
 #include <iostream>
 #include "BigInt.h"
+#include "myRSA.hpp"
 
 int main(int argc, char const *argv[]) {
-	BigInt p, q, s;
-	p.setValue("1a2b345645cd78634a8298b6aefd3412354dfe78a9"); // 76498
-	std::cout << "p equals " << p.toHex() << std::endl;
-	q.setValue("f8d79fe893eb2ec8"); // 34623
-	std::cout << "q equals " << q.toHex() << std::endl;
-	// s.put(34);
-	BigInt r = p / q;
-	std::cout << "quotion equals " << r.toHex() << std::endl;
+    BigInt a, b, c, d;
+    a.setValue("2");
+    b.setValue("40ce34520");
+    c = getRandom(a, b);
+    c = getRandom(a, b);
+    c = getRandom(a, b);
+    std::cout << "random number: " << c.toHex() << std::endl;
+    
+	// BigInt p, q, s;
+	// p.setValue("1a2b345645cd78634a8298b6aefd3412354dfe78a9"); // 76498
+	// std::cout << "p equals " << p.toHex() << std::endl;
+	// q.setValue("f8d79fe893eb2ec8"); // 34623
+	// std::cout << "q equals " << q.toHex() << std::endl;
+	// // s.put(34);
+	// BigInt r = p / q;
+	// std::cout << "quotion equals " << r.toHex() << std::endl;
 
 	// BigInt a, b, c;
 	// a.setValue("234534");

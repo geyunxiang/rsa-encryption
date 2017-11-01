@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <sstream>
 #include <cstdio>
+#include <cstdlib>
 #include <iostream>
 
 #define DEBUG false
@@ -17,7 +18,7 @@ std::string BigInt::toHex() {
 
 // get the length of this bigint
 int BigInt::getLength() const {
-	return values.size();
+	return static_cast<int>(values.size());
 }
 
 // get the specific byte value
@@ -224,6 +225,11 @@ BigInt operator%(const BigInt& lop, const BigInt& rop) {
 	return result;
 }
 
+BigInt operator++(const BigInt& lop) {
+    BigInt rop;
+    rop.setValue("1");
+    return lop+rop;
+}
 
 // Comparisons
 bool operator== (const BigInt& lop, const BigInt& rop) {
@@ -250,8 +256,50 @@ bool operator< (const BigInt& lop, const BigInt& rop) {
 	}
 }
 
+bool operator<= (const BigInt& lop, const BigInt& rop) {
+    return lop < rop || lop == rop;
+}
+
 bool operator> (const BigInt& lop, const BigInt& rop) {
 	return rop < lop;
+}
+
+bool operator>= (const BigInt& lop, const BigInt& rop) {
+    return lop > rop || lop == rop;
+}
+
+// Other functions
+BigInt pow(BigInt base, BigInt power) {
+    BigInt result;
+    result.setValue("1");
+    BigInt counter;
+    BigInt one;
+    one.setValue("1");
+    for(counter.setValue("0"); counter < power; counter = counter + one){
+        result = result * base;
+    }
+    return result;
+}
+
+BigInt getRandomWithBitLength(int bitLength) {
+    int vectorLength = bitLength / 8;
+    BigInt result;
+    for(int i = 0; i < vectorLength; i++)
+        result.insert(static_cast<byte>(rand()%256));
+    return result;
+}
+
+BigInt getRandom(BigInt lowerbound, BigInt upperbound) {
+    BigInt result;
+    int lowerLength = lowerbound.getLength(), upperLength = upperbound.getLength();
+    int lengthGap = upperLength - lowerLength;
+    int randGap = 0;
+    while (true) {
+        randGap = lengthGap == 0 ? 0 : rand() % lengthGap;
+        result = getRandomWithBitLength((lowerLength+randGap)*8);
+        if(result <= upperbound && result >= lowerbound)
+            return result;
+    }
 }
 
 // private functions
