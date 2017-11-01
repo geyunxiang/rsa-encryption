@@ -4,8 +4,12 @@
 
 int main(int argc, char const *argv[]) {
     BigInt a, b, c, d, p, q, s;
-    a.setValue("269");
-    std::cout << "Rabin Miller result: " << std::boolalpha << RabinMiller(a) << std::endl;
+    
+    a = generatePrimeWithBitLength(128);
+    std::cout << "Random prime generated: " << a.toHex() << std::endl;
+    
+    // a.setValue("269");
+    // std::cout << "Rabin Miller result: " << std::boolalpha << RabinMiller(a) << std::endl;
 
     // a.setValue("2");
     // b.setValue("40ce34520");

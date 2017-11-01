@@ -40,6 +40,7 @@ private:
 
 const BigInt ZERO_BIG_INT = BigInt(0);
 const BigInt ONE_BIG_INT = BigInt(1);
+const BigInt TWO_BIG_INT = BigInt(2);
 
 BigInt pow(BigInt base, BigInt power);
 BigInt getRandom(BigInt lowerbound, BigInt upperbound); // both inclusive
