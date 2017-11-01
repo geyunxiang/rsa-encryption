@@ -3,9 +3,19 @@
 #include <sstream>
 #include <cstdio>
 #include <cstdlib>
+#include <cmath>
 #include <iostream>
 
 #define DEBUG false
+
+// constructor
+BigInt::BigInt(int a) {
+    if(a <= 255) values.push_back(a);
+    else {
+        values.push_back(a%256);
+        values.push_back(a/256);
+    }
+}
 
 // Helper functions
 std::string BigInt::toHex() {
@@ -152,7 +162,6 @@ BigInt multiplyOneDigit(const BigInt& lop, const BigInt& rop) {
 BigInt operator*(const BigInt& lop, const BigInt& rop) {
 	BigInt result;
 	result.setValue(0);
-	byte nextcarry = 0, currentcarry = 0;
 	for(int count = 0; count < rop.getLength(); count ++) {
 		BigInt posresult;
 		BigInt singlerop;
@@ -277,6 +286,21 @@ BigInt pow(BigInt base, BigInt power) {
     one.setValue("1");
     for(counter.setValue("0"); counter < power; counter = counter + one){
         result = result * base;
+    }
+    return result;
+}
+
+BigInt pow(BigInt base, BigInt power, BigInt modulo) {
+    BigInt powModuloResult[64]; // base^(2^i) % modulo = powModuloResult[i]
+    powModuloResult[0] = base % modulo; // base^(2^0) = base^1 = base % modulo
+    for(int i = 1; i < 64; i++) powModuloResult[i] = (powModuloResult[i-1] * powModuloResult[i-1]) % modulo;
+    std::cout << "powModule list built" << std::endl;
+    BigInt result(1);
+    BigInt powerLeft = power;
+    for(int i = 63; i >= 0; i--) {
+        if(powerLeft < pow(TWO_BIG_INT, BigInt(i))) continue;
+        result = result * powModuloResult[i] % modulo;
+        powerLeft = powerLeft - pow(TWO_BIG_INT, BigInt(i));
     }
     return result;
 }

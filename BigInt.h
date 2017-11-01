@@ -10,7 +10,8 @@ typedef unsigned char byte;
 class BigInt {
 public:
 	BigInt() {}
-    BigInt(int a) {values.push_back(a);}
+    BigInt(byte a) {values.push_back(a);}
+    BigInt(int a);
 	~BigInt() {}
 	friend BigInt operator+(const BigInt& lop, const BigInt& rop);
 	friend BigInt operator-(const BigInt& lop, const BigInt& rop);
@@ -43,6 +44,7 @@ const BigInt ONE_BIG_INT = BigInt(1);
 const BigInt TWO_BIG_INT = BigInt(2);
 
 BigInt pow(BigInt base, BigInt power);
+BigInt pow(BigInt base, BigInt power, BigInt modulo); // reference: https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/fast-modular-exponentiation
 BigInt getRandom(BigInt lowerbound, BigInt upperbound); // both inclusive
 
 // BigInt trimmed();

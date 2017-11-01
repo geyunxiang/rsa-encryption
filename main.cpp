@@ -2,13 +2,22 @@
 #include "BigInt.h"
 #include "myRSA.hpp"
 
+
+// currently can generate prime with max bit length 64
+// need to speed up power calculation
+// also need to adjust random number generating method
 int main(int argc, char const *argv[]) {
     BigInt a, b, c, d, p, q, s;
+    // b = BigInt(32);
+    // a = pow(TWO_BIG_INT, b);
+    //std::cout << "power calculated: " << a.toHex() << std::endl;
     
-    a = generatePrimeWithBitLength(128);
+    // a = generateOrderedPrime(16);
+    while((a = generatePrimeWithBitLength(64)) == ZERO_BIG_INT) ;
     std::cout << "Random prime generated: " << a.toHex() << std::endl;
-    
+    // listLowPrimes();
     // a.setValue("269");
+    // std::cout << "prime test result: " << std::boolalpha << checkIfPrime(a) << std::endl;
     // std::cout << "Rabin Miller result: " << std::boolalpha << RabinMiller(a) << std::endl;
 
     // a.setValue("2");
