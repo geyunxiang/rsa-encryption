@@ -3,13 +3,47 @@
 
 int main(int argc, char const *argv[]) {
 	BigInt p, q, s;
-	p.setValue("873F"); // 2876
+	p.setValue("1a2b345645cd78634a8298b6aefd3412354dfe78a9"); // 76498
 	std::cout << "p equals " << p.toHex() << std::endl;
-	q.setValue("12AD2"); // 3547
+	q.setValue("f8d79fe893eb2ec8"); // 34623
 	std::cout << "q equals " << q.toHex() << std::endl;
 	// s.put(34);
-	BigInt r = q * p;
-	std::cout << r.toHex() << std::endl;
+	BigInt r = p / q;
+	std::cout << "quotion equals " << r.toHex() << std::endl;
+
+	// BigInt a, b, c;
+	// a.setValue("234534");
+	// b.setValue("abcdef1234");
+	// c = a + b;
+	// std::cout << "addition result: " << c.toHex() << std::endl;
+
+	// BigInt a, b, c;
+	// a.setValue("1000000000");
+	// b.setValue("fffffffff");
+	// c = a - b;
+	// std::cout << "submission result: " << c.toHex() << std::endl;
+
+	// BigInt a, b, c;
+	// a.setValue("10");
+	// b.setValue("40");
+	// c = a * b;
+	// std::cout << "multiplication result: " << c.toHex() << std::endl;
+
+	// BigInt a, b, c, d;
+	// a.setValue("400");
+	// b.setValue("10");
+	// c.setValue("40");
+	// d = b*c;
+	// // std::cout << "comparison result: " << std::boolalpha << (a == (b*c)) << std::endl;
+	// std::cout << "comparison result: " << std::boolalpha << (a == d) << std::endl;
+	// std::cout << "a.length: " << a.getLength() << "  d.length: " << d.getLength() << std::endl;
+
+	// BigInt a, b, c;
+	// a.setValue("400");
+	// b.setValue("11");
+	// c = a / b;
+	// std::cout << "dividen result: " << c.toHex() << std::endl;
+
 	// byte a, b, c;
 	// a = 143;
 	// b = 217;
