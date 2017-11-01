@@ -16,6 +16,8 @@
 // note that bigLength should be divisible by 8
 BigInt generatePrimeWithBitLength(int bitLength);
 
+// implementation reference:
+// https://langui.sh/2009/03/07/generating-very-large-primes/
 bool RabinMiller(BigInt p);
 
 bool checkIfPrime(BigInt p);

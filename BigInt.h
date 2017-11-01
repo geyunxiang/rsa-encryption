@@ -10,6 +10,7 @@ typedef unsigned char byte;
 class BigInt {
 public:
 	BigInt() {}
+    BigInt(int a) {values.push_back(a);}
 	~BigInt() {}
 	friend BigInt operator+(const BigInt& lop, const BigInt& rop);
 	friend BigInt operator-(const BigInt& lop, const BigInt& rop);
@@ -36,6 +37,9 @@ private:
 	void trim();
 	std::vector<byte> values;
 };
+
+const BigInt ZERO_BIG_INT = BigInt(0);
+const BigInt ONE_BIG_INT = BigInt(1);
 
 BigInt pow(BigInt base, BigInt power);
 BigInt getRandom(BigInt lowerbound, BigInt upperbound); // both inclusive

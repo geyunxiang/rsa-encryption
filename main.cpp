@@ -3,15 +3,17 @@
 #include "myRSA.hpp"
 
 int main(int argc, char const *argv[]) {
-    BigInt a, b, c, d;
-    a.setValue("2");
-    b.setValue("40ce34520");
-    c = getRandom(a, b);
-    c = getRandom(a, b);
-    c = getRandom(a, b);
-    std::cout << "random number: " << c.toHex() << std::endl;
+    BigInt a, b, c, d, p, q, s;
+    a.setValue("269");
+    std::cout << "Rabin Miller result: " << std::boolalpha << RabinMiller(a) << std::endl;
+
+    // a.setValue("2");
+    // b.setValue("40ce34520");
+    // c = getRandom(a, b);
+    // c = getRandom(a, b);
+    // c = getRandom(a, b);
+    // std::cout << "random number: " << c.toHex() << std::endl;
     
-	// BigInt p, q, s;
 	// p.setValue("1a2b345645cd78634a8298b6aefd3412354dfe78a9"); // 76498
 	// std::cout << "p equals " << p.toHex() << std::endl;
 	// q.setValue("f8d79fe893eb2ec8"); // 34623
@@ -20,25 +22,21 @@ int main(int argc, char const *argv[]) {
 	// BigInt r = p / q;
 	// std::cout << "quotion equals " << r.toHex() << std::endl;
 
-	// BigInt a, b, c;
 	// a.setValue("234534");
 	// b.setValue("abcdef1234");
 	// c = a + b;
 	// std::cout << "addition result: " << c.toHex() << std::endl;
 
-	// BigInt a, b, c;
 	// a.setValue("1000000000");
 	// b.setValue("fffffffff");
 	// c = a - b;
 	// std::cout << "submission result: " << c.toHex() << std::endl;
 
-	// BigInt a, b, c;
 	// a.setValue("10");
 	// b.setValue("40");
 	// c = a * b;
 	// std::cout << "multiplication result: " << c.toHex() << std::endl;
 
-	// BigInt a, b, c, d;
 	// a.setValue("400");
 	// b.setValue("10");
 	// c.setValue("40");
@@ -47,7 +45,6 @@ int main(int argc, char const *argv[]) {
 	// std::cout << "comparison result: " << std::boolalpha << (a == d) << std::endl;
 	// std::cout << "a.length: " << a.getLength() << "  d.length: " << d.getLength() << std::endl;
 
-	// BigInt a, b, c;
 	// a.setValue("400");
 	// b.setValue("11");
 	// c = a / b;
