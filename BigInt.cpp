@@ -1,6 +1,8 @@
 #include "BigInt.h"
 #include <algorithm>
 #include <sstream>
+#include <chrono>
+#include <random>
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
@@ -308,8 +310,10 @@ BigInt pow(BigInt base, BigInt power, BigInt modulo) {
 BigInt getRandomWithBitLength(int bitLength) {
     int vectorLength = bitLength / 8;
     BigInt result;
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::mt19937 generator (seed);
     for(int i = 0; i < vectorLength; i++)
-        result.insert(static_cast<byte>(rand()%256));
+        result.insert(static_cast<byte>(generator()%256));
     return result;
 }
 
@@ -318,8 +322,10 @@ BigInt getRandom(BigInt lowerbound, BigInt upperbound) {
     int lowerLength = lowerbound.getLength(), upperLength = upperbound.getLength();
     int lengthGap = upperLength - lowerLength;
     int randGap = 0;
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::mt19937 generator (seed);
     while (true) {
-        randGap = lengthGap == 0 ? 0 : rand() % lengthGap;
+        randGap = lengthGap == 0 ? 0 : generator() % lengthGap;
         result = getRandomWithBitLength((lowerLength+randGap)*8);
         if(result <= upperbound && result >= lowerbound)
             return result;
