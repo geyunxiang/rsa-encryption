@@ -1,23 +1,43 @@
 #include <iostream>
 #include "BigInt.h"
 #include "myRSA.hpp"
-
+#include <chrono>
+#include <ctime>
+#include <random>
 
 // currently can generate prime with max bit length 64
 // need to speed up power calculation
 // also need to adjust random number generating method
 int main(int argc, char const *argv[]) {
     BigInt a, b, c, d, p, q, s;
-    // b = BigInt(32);
-    // a = pow(TWO_BIG_INT, b);
-    //std::cout << "power calculated: " << a.toHex() << std::endl;
+    //d.setValue("87AD3D06606BD9");
+    //b.setValue("1B48460234FAE92ED937BEDA515BA1A1");
+    //c.setValue("DA423011A7D74976C9BDF6D28ADD0D09");
+    //a = pow(d, b, c);
+    //std::cout << "power modulo calculated: " << a.toHex() << std::endl;
     
-    // a = generateOrderedPrime(16);
-    while((a = generatePrimeWithBitLength(64)) == ZERO_BIG_INT) ;
+    
+    
+    
+    
+    
+    
+    
+    //a.setValue("DA423011A7D74976C9BDF6D28ADD0D09");
+    //std::cout << "prime test result: " << std::boolalpha << checkIfPrime(a) << std::endl;
+    //std::cout << "Random value: " << generator() % 256 << std::endl;
+    //a = generateOrderedPrime(16);
+    std::chrono::system_clock::time_point today = std::chrono::system_clock::now();
+    std::time_t tt;
+    tt = std::chrono::system_clock::to_time_t ( today );
+    std::cout << "today is: " << ctime(&tt);
+    while((a = generatePrimeWithBitLength(256)) == ZERO_BIG_INT) ;
     std::cout << "Random prime generated: " << a.toHex() << std::endl;
-    // listLowPrimes();
+    today = std::chrono::system_clock::now();
+    tt = std::chrono::system_clock::to_time_t ( today );
+    std::cout << "today is: " << ctime(&tt);
     // a.setValue("269");
-    // std::cout << "prime test result: " << std::boolalpha << checkIfPrime(a) << std::endl;
+    
     // std::cout << "Rabin Miller result: " << std::boolalpha << RabinMiller(a) << std::endl;
 
     // a.setValue("2");

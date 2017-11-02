@@ -10,8 +10,20 @@
 
 #define DEBUG false
 
+const int RESERVED_LENGTH = 1000;
+
 // constructor
+BigInt::BigInt() {
+    values.reserve(RESERVED_LENGTH);
+}
+
+BigInt::BigInt(byte a) {
+    values.reserve(RESERVED_LENGTH);
+    values.push_back(a);
+}
+
 BigInt::BigInt(int a) {
+    values.reserve(RESERVED_LENGTH);
     if(a <= 255) values.push_back(a);
     else {
         values.push_back(a%256);
@@ -59,13 +71,14 @@ void BigInt::insert(byte value) {
 // make the bigint have value
 void BigInt::setValue(byte value) {
 	values = std::vector<byte> (1, value);
+    values.reserve(RESERVED_LENGTH);
 }
 
 // init BigInt from string or reset its value
 void BigInt::setValue(std::string value) {
 	unsigned int buf;
 	values = std::vector<byte>();
-	for(int i = value.size() - 2; i >= 0; i -= 2) {
+	for(int i = static_cast<int>(value.size()) - 2; i >= 0; i -= 2) {
 		std::stringstream ss;
 		ss << std::hex << value.substr(i, 2);
 		ss >> buf;
@@ -79,11 +92,11 @@ void BigInt::setValue(std::string value) {
 		values.push_back(static_cast<byte>(buf));
 	}
 	this->trim();
+    values.reserve(RESERVED_LENGTH);
 }
 
 
 // Four basic operations
-// reference: https://stackoverflow.com/questions/269268/how-to-implement-big-int-in-c
 BigInt operator+(const BigInt& lop, const BigInt& rop) {
 	BigInt result;
 	byte carry = 0, op1, op2, digits_result;
@@ -93,9 +106,8 @@ BigInt operator+(const BigInt& lop, const BigInt& rop) {
 		digits_result = op1 + op2 + carry;
 		if (digits_result - carry < std::max(op1, op2)) {
 			carry = 1;
-			if(DEBUG) std::cout << "digits_result: " << static_cast<int>(digits_result) << std::endl;
-			
-			if(DEBUG) std::cout << "digits_result: " << static_cast<int>(digits_result) << std::endl;
+			//if(DEBUG) std::cout << "digits_result: " << static_cast<int>(digits_result) << std::endl;
+			//if(DEBUG) std::cout << "digits_result: " << static_cast<int>(digits_result) << std::endl;
 		} else {
 			carry = 0;
 		}
@@ -136,7 +148,7 @@ BigInt operator-(const BigInt& lop, const BigInt& rop) {
 		result.put(digits_result);
 		count ++;
 	}
-	if(carry == 1) result.setValue("0");
+	if(carry == 1) result.setValue(0);
 	result.trim();
 	return result;
 }
@@ -151,7 +163,7 @@ BigInt multiplyOneDigit(const BigInt& lop, const BigInt& rop) {
 		unsigned short two_digits_result = static_cast<unsigned short>(op1)*static_cast<unsigned short>(op2);
 		two_digits_result += carry;
 		carry = two_digits_result >> 8; // carry
-		if(DEBUG) std::cout << "new carry: " << static_cast<int>(carry) << std::endl;
+		//if(DEBUG) std::cout << "new carry: " << static_cast<int>(carry) << std::endl;
 		byte digits_result = two_digits_result; // lower 8 bit
 		result.put(digits_result);
 	}
@@ -162,8 +174,7 @@ BigInt multiplyOneDigit(const BigInt& lop, const BigInt& rop) {
 }
 
 BigInt operator*(const BigInt& lop, const BigInt& rop) {
-	BigInt result;
-	result.setValue(0);
+	BigInt result(0);
 	for(int count = 0; count < rop.getLength(); count ++) {
 		BigInt posresult;
 		BigInt singlerop;
@@ -178,15 +189,16 @@ BigInt operator*(const BigInt& lop, const BigInt& rop) {
 
 byte divideResult(const BigInt& dividen, const BigInt& divider) {
 	// this should return a value less than 255
+    // can use binary search to speed up.
 	byte result = 0;
-	BigInt quotion;
-	BigInt zero;
-	zero.setValue("0");
+	//BigInt quotion;
+    BigInt multResult(0);
 	while(true) {
 		result ++;
-		quotion.setValue(result);
-		if(dividen == quotion*divider) return result;
-		if(dividen - quotion*divider < divider) {
+        multResult = multResult + divider;
+		//quotion.setValue(result);
+		if(dividen == multResult) return result;
+		if(dividen - multResult < divider) {
 			return result;
 		}
 		if(result == 255) return result;
@@ -199,31 +211,29 @@ BigInt operator/(const BigInt& lop, const BigInt& divider) {
 		result.setValue(0);
 		return result;
 	}
-	BigInt dividen;
-	dividen.setValue("0");
+	BigInt dividen(0);
 	for(int i = lop.getLength() - 1; i >= 0; i--) {
-		if(DEBUG) std::cout << "i equals: " << i << std::endl;
+		//if(DEBUG) std::cout << "i equals: " << i << std::endl;
 		dividen.insert(lop.get(i));
 		if(dividen < divider) {
-			if(DEBUG) std::cout << "dividen < divider" << std::endl;
+			//if(DEBUG) std::cout << "dividen < divider" << std::endl;
 			result.insertZeros(1);
 		} else if(dividen == divider) {
-			if(DEBUG) std::cout << "dividen == divider" << std::endl;
+			//if(DEBUG) std::cout << "dividen == divider" << std::endl;
 			result.insert(1);
-			dividen.setValue("0");
+			dividen.setValue(0);
 		} else {
 			// dividen > divider but their size equals
-			if(DEBUG) std::cout << "dividen before: " << dividen.toHex() << std::endl;
+			//if(DEBUG) std::cout << "dividen before: " << dividen.toHex() << std::endl;
 			byte quot = divideResult(dividen, divider);
-			if(DEBUG) std::cout << "calculated quot: " << static_cast<int>(quot) << std::endl;
-			BigInt quotInt;
-			quotInt.setValue(quot);
-			if(DEBUG) std::cout << "quotInt: " << quotInt.toHex() << std::endl;
+			//if(DEBUG) std::cout << "calculated quot: " << static_cast<int>(quot) << std::endl;
+			BigInt quotInt(quot);
+			//if(DEBUG) std::cout << "quotInt: " << quotInt.toHex() << std::endl;
 			result.insert(quot);
-			dividen = dividen - quotInt*divider;
-			if(DEBUG) std::cout << "quotInt*divider: " << (quotInt*divider).toHex() << std::endl;
-			if(DEBUG) std::cout << "result: " << result.toHex() << std::endl;
-			if(DEBUG) std::cout << "dividen after: " << dividen.toHex() << std::endl << std::endl;
+			dividen = dividen - multiplyOneDigit(divider, quotInt);
+			//if(DEBUG) std::cout << "quotInt*divider: " << (quotInt*divider).toHex() << std::endl;
+			//if(DEBUG) std::cout << "result: " << result.toHex() << std::endl;
+			//if(DEBUG) std::cout << "dividen after: " << dividen.toHex() << std::endl << std::endl;
 		}
 	}
 	result.trim();
@@ -231,9 +241,7 @@ BigInt operator/(const BigInt& lop, const BigInt& divider) {
 }
 
 BigInt operator%(const BigInt& lop, const BigInt& rop) {
-	BigInt result;
-	result = lop-(lop/rop)*rop;
-	return result;
+	return lop-(lop/rop)*rop;
 }
 
 BigInt operator++(const BigInt& lop) {
@@ -260,9 +268,7 @@ bool operator< (const BigInt& lop, const BigInt& rop) {
 		return false;
 	} else {
 		// length equals
-		BigInt zero;
-		zero.setValue("0");
-		if(rop - lop == zero) return false;
+		if(rop - lop == ZERO_BIG_INT) return false;
 		else return true;
 	}
 }
@@ -293,17 +299,27 @@ BigInt pow(BigInt base, BigInt power) {
 }
 
 BigInt pow(BigInt base, BigInt power, BigInt modulo) {
-    BigInt powModuloResult[64]; // base^(2^i) % modulo = powModuloResult[i]
+    BigInt powModuloResult[256]; // base^(2^i) % modulo = powModuloResult[i]
     powModuloResult[0] = base % modulo; // base^(2^0) = base^1 = base % modulo
-    for(int i = 1; i < 64; i++) powModuloResult[i] = (powModuloResult[i-1] * powModuloResult[i-1]) % modulo;
+    for(int i = 1; i < 256; i++) {
+        BigInt multResult = powModuloResult[i-1] * powModuloResult[i-1];
+        //std::cout << "multiplied" << std::endl;
+        powModuloResult[i] = (multResult) % modulo;
+        //std::cout << "modulo calculated" << std::endl;
+    }
     std::cout << "powModule list built" << std::endl;
     BigInt result(1);
     BigInt powerLeft = power;
-    for(int i = 63; i >= 0; i--) {
-        if(powerLeft < pow(TWO_BIG_INT, BigInt(i))) continue;
-        result = result * powModuloResult[i] % modulo;
-        powerLeft = powerLeft - pow(TWO_BIG_INT, BigInt(i));
+    for(int i = 255; i >= 0; i--) {
+        BigInt tmp = pow(TWO_BIG_INT, BigInt(i));
+        while(true) {
+            if(powerLeft < tmp) break;
+            result = result * powModuloResult[i] % modulo;
+            powerLeft = powerLeft - pow(TWO_BIG_INT, BigInt(i));
+        }
+        //std::cout << "powerLeft: " << powerLeft.toHex() << std::endl;
     }
+    std::cout << "powerLeft: " << powerLeft.toHex() << std::endl;
     return result;
 }
 
@@ -313,7 +329,7 @@ BigInt getRandomWithBitLength(int bitLength) {
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::mt19937 generator (seed);
     for(int i = 0; i < vectorLength; i++)
-        result.insert(static_cast<byte>(generator()%256));
+        result.put(static_cast<byte>(generator()%256));
     return result;
 }
 

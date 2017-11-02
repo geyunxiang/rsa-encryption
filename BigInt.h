@@ -9,11 +9,11 @@ typedef unsigned char byte;
 
 class BigInt {
 public:
-	BigInt() {}
-    BigInt(byte a) {values.push_back(a);}
+    BigInt();
+    BigInt(byte a);
     BigInt(int a);
 	~BigInt() {}
-	friend BigInt operator+(const BigInt& lop, const BigInt& rop);
+	friend BigInt operator+(const BigInt& lop, const BigInt& rop);// reference: https://stackoverflow.com/questions/269268/how-to-implement-big-int-in-c
 	friend BigInt operator-(const BigInt& lop, const BigInt& rop);
 	friend BigInt operator*(const BigInt& lop, const BigInt& rop);
 	friend BigInt operator/(const BigInt& lop, const BigInt& rop);
