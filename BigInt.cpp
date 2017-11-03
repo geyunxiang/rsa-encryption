@@ -192,20 +192,45 @@ BigInt operator*(const BigInt& lop, const BigInt& rop) {
 	return result;
 }
 
-byte divideResult(const BigInt& dividen, const BigInt& divider) {
-	// this should return a value less than 255
-	byte result = 0;
+unsigned int divideResult(const BigInt& dividen, const BigInt& divider) {
+	// this should return a value less than uint.max
+    // currently this function need to be speed up
+	unsigned int result = 0, min = 0, max = 4294967295;
     BigInt multResult(0);
+    while(true) {
+        if(max - min < 10) {
+            // search manually
+            for(result = min; result <= max; result ++) {
+                multResult = multiplyOneDigit(divider, result);
+                if(dividen == multResult) return result;
+                if(dividen - multResult < divider) {
+                    return result;
+                }
+            }
+            std::cout << "this code should never be executed." << std::endl;
+        }
+        result = max/2 + min/2;
+        multResult = multiplyOneDigit(divider, result);
+        if(dividen == multResult) return result;
+        if(dividen > multResult) {
+            // result too small
+            min = result;
+            continue;
+        }
+        if(dividen < multResult) {
+            // result too big
+            max = result;
+            continue;
+        }
+    }
+    /*
 	while(true) {
 		result ++;
         multResult = multResult + divider;
 		//quotion.setValue(result);
-		if(dividen == multResult) return result;
-		if(dividen - multResult < divider) {
-			return result;
-		}
-		if(result == 255) return result;
-	}
+		
+		if(result == 4294967295) return result;
+	}*/
 }
 
 BigInt operator/(const BigInt& lop, const BigInt& divider) {
@@ -215,7 +240,6 @@ BigInt operator/(const BigInt& lop, const BigInt& divider) {
 		return result;
 	}
 	BigInt dividen(0);
-    BigInt quotInt(0);
 	for(int i = lop.getLength() - 1; i >= 0; i--) {
 		dividen.insert(lop.get(i));
 		if(dividen < divider) {
@@ -225,10 +249,9 @@ BigInt operator/(const BigInt& lop, const BigInt& divider) {
 			dividen.setValue(0);
 		} else {
 			// dividen > divider but their size equals
-			byte quot = divideResult(dividen, divider);
-			quotInt.setValue(quot);
+			unsigned int quot = divideResult(dividen, divider);
 			result.insert(quot);
-			dividen = dividen - multiplyOneDigit(divider, quotInt);
+			dividen = dividen - multiplyOneDigit(divider, quot);
 		}
 	}
 	result.trim();

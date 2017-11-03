@@ -11,8 +11,8 @@
 int main(int argc, char const *argv[]) {
     BigInt a, b, c, d, p, q, s;
     
-    a.setValue("FFFFFFFFFFFFF");
-    std::cout << "a equals: " << a.toHex() << std::endl;
+    //a.setValue("FFFFFFFFFFFFF");
+    //std::cout << "a equals: " << a.toHex() << std::endl;
     
     //a.setValue(2847293);
     //std::cout << "a equals: " << a.toHex() << std::endl;
@@ -52,13 +52,12 @@ int main(int argc, char const *argv[]) {
     // c = getRandom(a, b);
     // std::cout << "random number: " << c.toHex() << std::endl;
     
-	// p.setValue("52092C4047"); // 76498
-	// std::cout << "p equals " << p.toHex() << std::endl;
-	// q.setValue("247F251B"); // 34623
-	// std::cout << "q equals " << q.toHex() << std::endl;
-	// // s.put(34);
-	// BigInt r = p / q;
-	// std::cout << "quotion equals " << r.toHex() << std::endl;
+	p.setValue("1292F44D0E94BEE");
+	std::cout << "p equals " << p.toHex() << std::endl;
+	q.setValue("118FA76E");
+	std::cout << "q equals " << q.toHex() << std::endl;
+	BigInt r = p / q;
+	std::cout << "quotion equals " << r.toHex() << std::endl;
 
 	// a.setValue("234534");
 	// b.setValue("abcdef1234");
@@ -70,8 +69,8 @@ int main(int argc, char const *argv[]) {
 	// c = a - b;
 	// std::cout << "submission result: " << c.toHex() << std::endl;
 
-	// a.setValue("10");
-	// b.setValue("40");
+	// a.setValue(283918273);
+	// b.setValue(294627182);
 	// c = a * b;
 	// std::cout << "multiplication result: " << c.toHex() << std::endl;
 
