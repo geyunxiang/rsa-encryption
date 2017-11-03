@@ -144,17 +144,17 @@ BigInt operator-(const BigInt& lop, const BigInt& rop) {
 }
 
 // rop only contains one digit
+// Deprecated
 BigInt multiplyOneDigit(const BigInt& lop, const BigInt& rop) {
 	BigInt result;
-	byte op2 = rop.get(0);
-	byte carry = 0;
+	unsigned int op2 = rop.get(0);
+	unsigned int carry = 0;
 	for(int count = 0; count < lop.getLength(); count ++) {
-		byte op1 = lop.get(count);
-		unsigned short two_digits_result = static_cast<unsigned short>(op1)*static_cast<unsigned short>(op2);
+		unsigned int op1 = lop.get(count);
+		uint64_t two_digits_result = static_cast<uint64_t>(op1)*static_cast<uint64_t>(op2);
 		two_digits_result += carry;
-		carry = two_digits_result >> 8; // carry
-		//if(DEBUG) std::cout << "new carry: " << static_cast<int>(carry) << std::endl;
-		byte digits_result = two_digits_result; // lower 8 bit
+		carry = two_digits_result >> 32; // carry
+		unsigned int digits_result = static_cast<unsigned int>(two_digits_result); // lower 32 bit
 		result.put(digits_result);
 	}
 	if(carry != 0) {
@@ -163,15 +163,30 @@ BigInt multiplyOneDigit(const BigInt& lop, const BigInt& rop) {
 	return result;
 }
 
+BigInt multiplyOneDigit(const BigInt& lop, unsigned int op2) {
+    BigInt result;
+    unsigned int carry = 0;
+    for(int count = 0; count < lop.getLength(); count ++) {
+        unsigned int op1 = lop.get(count);
+        uint64_t two_digits_result = static_cast<uint64_t>(op1)*static_cast<uint64_t>(op2);
+        two_digits_result += carry;
+        carry = two_digits_result >> 32; // carry
+        unsigned int digits_result = static_cast<unsigned int>(two_digits_result); // lower 32 bit
+        result.put(digits_result);
+    }
+    if(carry != 0) {
+        result.put(carry);
+    }
+    return result;
+}
+
 BigInt operator*(const BigInt& lop, const BigInt& rop) {
 	BigInt result(0);
+    BigInt posresult;
 	for(int count = 0; count < rop.getLength(); count ++) {
-		BigInt posresult;
-		BigInt singlerop;
-		singlerop.put(rop.get(count));
-		posresult = multiplyOneDigit(lop, singlerop);
+		posresult = multiplyOneDigit(lop, rop.get(count));
 		posresult.insertZeros(count);
-		posresult.trim();
+		// posresult.trim();
 		result = result + posresult;
 	}
 	return result;
