@@ -189,9 +189,7 @@ BigInt operator*(const BigInt& lop, const BigInt& rop) {
 
 byte divideResult(const BigInt& dividen, const BigInt& divider) {
 	// this should return a value less than 255
-    // can use binary search to speed up.
 	byte result = 0;
-	//BigInt quotion;
     BigInt multResult(0);
 	while(true) {
 		result ++;
@@ -212,36 +210,45 @@ BigInt operator/(const BigInt& lop, const BigInt& divider) {
 		return result;
 	}
 	BigInt dividen(0);
+    BigInt quotInt(0);
 	for(int i = lop.getLength() - 1; i >= 0; i--) {
-		//if(DEBUG) std::cout << "i equals: " << i << std::endl;
 		dividen.insert(lop.get(i));
 		if(dividen < divider) {
-			//if(DEBUG) std::cout << "dividen < divider" << std::endl;
 			result.insertZeros(1);
 		} else if(dividen == divider) {
-			//if(DEBUG) std::cout << "dividen == divider" << std::endl;
 			result.insert(1);
 			dividen.setValue(0);
 		} else {
 			// dividen > divider but their size equals
-			//if(DEBUG) std::cout << "dividen before: " << dividen.toHex() << std::endl;
 			byte quot = divideResult(dividen, divider);
-			//if(DEBUG) std::cout << "calculated quot: " << static_cast<int>(quot) << std::endl;
-			BigInt quotInt(quot);
-			//if(DEBUG) std::cout << "quotInt: " << quotInt.toHex() << std::endl;
+			quotInt.setValue(quot);
 			result.insert(quot);
 			dividen = dividen - multiplyOneDigit(divider, quotInt);
-			//if(DEBUG) std::cout << "quotInt*divider: " << (quotInt*divider).toHex() << std::endl;
-			//if(DEBUG) std::cout << "result: " << result.toHex() << std::endl;
-			//if(DEBUG) std::cout << "dividen after: " << dividen.toHex() << std::endl << std::endl;
 		}
 	}
 	result.trim();
 	return result;
 }
 
-BigInt operator%(const BigInt& lop, const BigInt& rop) {
-	return lop-(lop/rop)*rop;
+BigInt operator%(const BigInt& lop, const BigInt& divider) {
+	//return lop-(lop/divider)*divider;
+    if(lop < divider) {
+        return lop;
+    }
+    BigInt dividen(0);
+    for(int i = lop.getLength() - 1; i >= 0; i--) {
+        dividen.insert(lop.get(i));
+        if(dividen == divider) {
+            dividen.setValue(0);
+        } else if(dividen > divider) {
+            // dividen > divider but their size equals
+            byte quot = divideResult(dividen, divider);
+            BigInt quotInt(quot);
+            dividen = dividen - multiplyOneDigit(divider, quotInt);
+        }
+    }
+    dividen.trim();
+    return dividen;
 }
 
 BigInt operator++(const BigInt& lop) {

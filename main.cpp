@@ -10,6 +10,12 @@
 // also need to adjust random number generating method
 int main(int argc, char const *argv[]) {
     BigInt a, b, c, d, p, q, s;
+    
+    //a.setValue("4668442");
+    //b.setValue("AB2");
+    //c = a % b;
+    //std::cout << "modulo calculated: " << c.toHex() << std::endl;
+    
     //d.setValue("87AD3D06606BD9");
     //b.setValue("1B48460234FAE92ED937BEDA515BA1A1");
     //c.setValue("DA423011A7D74976C9BDF6D28ADD0D09");
@@ -17,28 +23,21 @@ int main(int argc, char const *argv[]) {
     //std::cout << "power modulo calculated: " << a.toHex() << std::endl;
     
     
-    
-    
-    
-    
-    
-    
-    //a.setValue("DA423011A7D74976C9BDF6D28ADD0D09");
+    //a.setValue("F1603517446C8E8365324DC981F1B064B6FC4003D5817A6EA64FE22374FD2E83");
     //std::cout << "prime test result: " << std::boolalpha << checkIfPrime(a) << std::endl;
-    //std::cout << "Random value: " << generator() % 256 << std::endl;
-    //a = generateOrderedPrime(16);
-    std::chrono::system_clock::time_point today = std::chrono::system_clock::now();
+    
+    std::chrono::system_clock::time_point begin = std::chrono::system_clock::now();
     std::time_t tt;
-    tt = std::chrono::system_clock::to_time_t ( today );
-    std::cout << "today is: " << ctime(&tt);
+    tt = std::chrono::system_clock::to_time_t ( begin );
+    
     while((a = generatePrimeWithBitLength(256)) == ZERO_BIG_INT) ;
     std::cout << "Random prime generated: " << a.toHex() << std::endl;
-    today = std::chrono::system_clock::now();
-    tt = std::chrono::system_clock::to_time_t ( today );
-    std::cout << "today is: " << ctime(&tt);
-    // a.setValue("269");
+    std::time_t tt2;
+    std::chrono::system_clock::time_point today = std::chrono::system_clock::now();
+    tt2 = std::chrono::system_clock::to_time_t ( today );
+    std::cout << "start on: " << ctime(&tt);
+    std::cout << "end   on: " << ctime(&tt2);
     
-    // std::cout << "Rabin Miller result: " << std::boolalpha << RabinMiller(a) << std::endl;
 
     // a.setValue("2");
     // b.setValue("40ce34520");
@@ -47,9 +46,9 @@ int main(int argc, char const *argv[]) {
     // c = getRandom(a, b);
     // std::cout << "random number: " << c.toHex() << std::endl;
     
-	// p.setValue("1a2b345645cd78634a8298b6aefd3412354dfe78a9"); // 76498
+	// p.setValue("52092C4047"); // 76498
 	// std::cout << "p equals " << p.toHex() << std::endl;
-	// q.setValue("f8d79fe893eb2ec8"); // 34623
+	// q.setValue("247F251B"); // 34623
 	// std::cout << "q equals " << q.toHex() << std::endl;
 	// // s.put(34);
 	// BigInt r = p / q;
@@ -77,11 +76,6 @@ int main(int argc, char const *argv[]) {
 	// // std::cout << "comparison result: " << std::boolalpha << (a == (b*c)) << std::endl;
 	// std::cout << "comparison result: " << std::boolalpha << (a == d) << std::endl;
 	// std::cout << "a.length: " << a.getLength() << "  d.length: " << d.getLength() << std::endl;
-
-	// a.setValue("400");
-	// b.setValue("11");
-	// c = a / b;
-	// std::cout << "dividen result: " << c.toHex() << std::endl;
 
 	// byte a, b, c;
 	// a = 143;
