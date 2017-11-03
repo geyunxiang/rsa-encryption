@@ -17,16 +17,13 @@ BigInt::BigInt() {
     values.reserve(RESERVED_LENGTH);
 }
 
-BigInt::BigInt(int a) {
+BigInt::BigInt(unsigned int a) {
     values.reserve(RESERVED_LENGTH);
-    if(a <= 255) values.push_back(a);
-    else {
-        values.push_back(a%256);
-        values.push_back(a/256);
-    }
+    values.push_back(a);
 }
 
 // Helper functions
+// not tested
 std::string BigInt::toHex() {
 	char converted[values.size()*2+1];
 	for(int i = 0; i < values.size(); i++) {
@@ -41,12 +38,12 @@ int BigInt::getLength() const {
 }
 
 // get the specific byte value
-byte BigInt::get(int index) const {
+unsigned int BigInt::get(int index) const {
 	return values.at(index);
 }
 
 // put value to the rear
-void BigInt::put(byte value) {
+void BigInt::put(unsigned int value) {
 	values.push_back(value);
 }
 
@@ -58,21 +55,22 @@ void BigInt::insertZeros(int num) {
 }
 
 // insert byte value to the lowest pos
-void BigInt::insert(byte value) {
+void BigInt::insert(unsigned int value) {
 	if(values.size() == 1 && values.at(0) == 0) values[0] = value;
 	else values.insert(values.begin(), value);
 }
 
 // make the bigint have value
-void BigInt::setValue(byte value) {
-	values = std::vector<byte> (1, value);
+void BigInt::setValue(unsigned int value) {
+	values = std::vector<unsigned int> (1, value);
     values.reserve(RESERVED_LENGTH);
 }
 
 // init BigInt from string or reset its value
+// not tested
 void BigInt::setValue(std::string value) {
 	unsigned int buf;
-	values = std::vector<byte>();
+	values = std::vector<unsigned int>();
 	for(int i = static_cast<int>(value.size()) - 2; i >= 0; i -= 2) {
 		std::stringstream ss;
 		ss << std::hex << value.substr(i, 2);
@@ -89,7 +87,6 @@ void BigInt::setValue(std::string value) {
 	this->trim();
     values.reserve(RESERVED_LENGTH);
 }
-
 
 // Four basic operations
 BigInt operator+(const BigInt& lop, const BigInt& rop) {
