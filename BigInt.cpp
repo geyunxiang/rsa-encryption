@@ -26,9 +26,11 @@ BigInt::BigInt(unsigned int a) {
 std::string BigInt::toHex() {
 	char converted[values.size()*8+1];
 	for(int i = 0; i < values.size(); i++) {
-		sprintf(&converted[i*8], "%X", values.at(values.size() - i - 1));
+		sprintf(&converted[i*8], "%08X", values.at(values.size() - i - 1));
 	}
-	return std::string(converted);
+    std::string result(converted);
+    // std::replace(result.begin(), result.end(), '0', '');
+	return result;
 }
 
 // get the length of this bigint
@@ -66,24 +68,22 @@ void BigInt::setValue(unsigned int value) {
 }
 
 // init BigInt from string or reset its value
-// not tested
 void BigInt::setValue(std::string value) {
 	unsigned int buf;
 	values = std::vector<unsigned int>();
     values.reserve(RESERVED_LENGTH);
-	for(int i = static_cast<int>(value.size()) - 2; i >= 0; i -= 2) {
+	for(int i = static_cast<int>(value.size()) - 8; i >= 0; i -= 8) {
 		std::stringstream ss;
 		ss << std::hex << value.substr(i, 8); // 8 hex per int
 		ss >> buf;
 		values.push_back(buf);
 		ss.str("");
 	}
-    // this need more test
 	if(value.size() % 8 != 0) {
 		std::stringstream ss;
-		ss << std::hex << value.at(0);
+		ss << std::hex << value.substr(0, value.size() % 8);
 		ss >> buf;
-		values.push_back(static_cast<byte>(buf));
+		values.push_back(buf);
 	}
 	this->trim();
 }

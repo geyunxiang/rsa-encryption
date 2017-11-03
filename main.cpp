@@ -11,8 +11,11 @@
 int main(int argc, char const *argv[]) {
     BigInt a, b, c, d, p, q, s;
     
-    a.setValue(2847293);
+    a.setValue("FFFFFFFFFFFFF");
     std::cout << "a equals: " << a.toHex() << std::endl;
+    
+    //a.setValue(2847293);
+    //std::cout << "a equals: " << a.toHex() << std::endl;
 
     //a.setValue("4668442");
     //b.setValue("AB2");
