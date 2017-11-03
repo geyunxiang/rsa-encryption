@@ -205,10 +205,10 @@ unsigned int divideResult(const BigInt& dividen, const BigInt& divider) {
             // search manually
             for(result = min; result <= max; result ++) {
                 multResult = multiplyOneDigit(divider, result);
-                std::cout << dividen.toHex() << "  dividen\n";
-                std::cout << multResult.toHex() << "  multresult\n";
-                std::cout << (dividen-multResult).toHex() << "  dividen-multresult\n";
-                std::cout << divider.toHex() << "  divider\n";
+                //std::cout << dividen.toHex() << "  dividen\n";
+                //std::cout << multResult.toHex() << "  multresult\n";
+                //std::cout << (dividen-multResult).toHex() << "  dividen-multresult\n";
+                //std::cout << divider.toHex() << "  divider\n";
                 if(dividen == multResult) return result;
                 if(dividen - multResult < divider) {
                     return result;
@@ -250,22 +250,22 @@ BigInt operator/(const BigInt& lop, const BigInt& divider) {
 	for(int i = lop.getLength() - 1; i >= 0; i--) {
 		dividen.insert(lop.get(i));
 		if(dividen < divider) {
-            std::cout << dividen.toHex() << "  dividen less than" << std::endl;
-            std::cout << divider.toHex() << std::endl;
+            //std::cout << dividen.toHex() << "  dividen less than" << std::endl;
+            //std::cout << divider.toHex() << std::endl;
 			result.insertZeros(1);
 		} else if(dividen == divider) {
-            std::cout << "divider == dividen" << std::endl;
+            //std::cout << "divider == dividen" << std::endl;
 			result.insert(1);
 			dividen.setValue(0);
 		} else {
 			// dividen > divider but their size equals
 			unsigned int quot = divideResult(dividen, divider);
-            std::cout << "quot equals: " << quot << std::endl;
+            //std::cout << "quot equals: " << quot << std::endl;
 			result.insert(quot);
-            std::cout << "origin dividen equals: " << dividen.toHex() << std::endl;
-            std::cout << "mult result: " << multiplyOneDigit(divider, quot).toHex() << std::endl;
+            //std::cout << "origin dividen equals: " << dividen.toHex() << std::endl;
+            //std::cout << "mult result: " << multiplyOneDigit(divider, quot).toHex() << std::endl;
 			dividen = dividen - multiplyOneDigit(divider, quot);
-            std::cout << "dividen equals: " << dividen.toHex() << std::endl;
+            //std::cout << "dividen equals: " << dividen.toHex() << std::endl;
 		}
 	}
 	result.trim();
@@ -364,7 +364,7 @@ BigInt pow(BigInt base, BigInt power, BigInt modulo) {
         //BigInt multResult = powModuloResult[i-1] * powModuloResult[i-1];
         //powModuloResult[i] = (multResult) % modulo;
         powModuloResult[i] = (powModuloResult[i-1] * powModuloResult[i-1]) % modulo;
-        std::cout << "powmodule " << i << " : " << powModuloResult[i].toHex() << std::endl;
+        //std::cout << "powmodule " << i << " : " << powModuloResult[i].toHex() << std::endl;
     }
     std::cout << "powModule list built" << std::endl;
     BigInt result(1);
@@ -376,11 +376,11 @@ BigInt pow(BigInt base, BigInt power, BigInt modulo) {
             if(powerLeft < tmp) break;
             result = result * powModuloResult[i] % modulo;
             powerLeft = powerLeft - tmp;
-            std::cout << "result: " << result.toHex() << std::endl;
+            //std::cout << "result: " << result.toHex() << std::endl;
         }
         //std::cout << "powerLeft: " << powerLeft.toHex() << std::endl;
     }
-    std::cout << "powerLeft: " << powerLeft.toHex() << std::endl;
+    //std::cout << "powerLeft: " << powerLeft.toHex() << std::endl;
     return result;
 }
 
