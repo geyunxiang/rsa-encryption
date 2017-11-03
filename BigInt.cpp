@@ -23,7 +23,7 @@ BigInt::BigInt(unsigned int a) {
 }
 
 // Helper functions
-std::string BigInt::toHex() {
+std::string BigInt::toHex() const {
 	char converted[values.size()*8+1];
 	for(int i = 0; i < values.size(); i++) {
 		sprintf(&converted[i*8], "%08X", values.at(values.size() - i - 1));
@@ -122,7 +122,10 @@ BigInt operator-(const BigInt& lop, const BigInt& rop) {
 		digits_result = op1 - op2 - carry;
 		if(digits_result + carry > op1) {
 			carry = 1;
-		} else {
+        } else if(digits_result + carry == 0 && carry == 1) {
+            // if op1 - op2 == 0, and carry = 1, then still set carry = 1
+            carry = 1;
+        } else {
 			carry = 0;
 		}
 		result.put(digits_result);
@@ -202,6 +205,10 @@ unsigned int divideResult(const BigInt& dividen, const BigInt& divider) {
             // search manually
             for(result = min; result <= max; result ++) {
                 multResult = multiplyOneDigit(divider, result);
+                std::cout << dividen.toHex() << "  dividen\n";
+                std::cout << multResult.toHex() << "  multresult\n";
+                std::cout << (dividen-multResult).toHex() << "  dividen-multresult\n";
+                std::cout << divider.toHex() << "  divider\n";
                 if(dividen == multResult) return result;
                 if(dividen - multResult < divider) {
                     return result;
@@ -243,15 +250,22 @@ BigInt operator/(const BigInt& lop, const BigInt& divider) {
 	for(int i = lop.getLength() - 1; i >= 0; i--) {
 		dividen.insert(lop.get(i));
 		if(dividen < divider) {
+            std::cout << dividen.toHex() << "  dividen less than" << std::endl;
+            std::cout << divider.toHex() << std::endl;
 			result.insertZeros(1);
 		} else if(dividen == divider) {
+            std::cout << "divider == dividen" << std::endl;
 			result.insert(1);
 			dividen.setValue(0);
 		} else {
 			// dividen > divider but their size equals
 			unsigned int quot = divideResult(dividen, divider);
+            std::cout << "quot equals: " << quot << std::endl;
 			result.insert(quot);
+            std::cout << "origin dividen equals: " << dividen.toHex() << std::endl;
+            std::cout << "mult result: " << multiplyOneDigit(divider, quot).toHex() << std::endl;
 			dividen = dividen - multiplyOneDigit(divider, quot);
+            std::cout << "dividen equals: " << dividen.toHex() << std::endl;
 		}
 	}
 	result.trim();
@@ -273,7 +287,6 @@ BigInt operator%(const BigInt& lop, const BigInt& divider) {
             dividen = dividen - multiplyOneDigit(divider, quot);
         }
     }
-    dividen.trim();
     return dividen;
 }
 
@@ -338,9 +351,7 @@ bool operator>= (const BigInt& lop, const BigInt& rop) {
 BigInt pow(BigInt base, BigInt power) {
     BigInt result(1);
     BigInt counter;
-    BigInt one;
-    one.setValue("1");
-    for(counter.setValue("0"); counter < power; counter = counter + one){
+    for(counter.setValue(0); counter < power; counter.increaseOne()){
         result = result * base;
     }
     return result;
@@ -350,20 +361,22 @@ BigInt pow(BigInt base, BigInt power, BigInt modulo) {
     BigInt powModuloResult[256]; // base^(2^i) % modulo = powModuloResult[i]
     powModuloResult[0] = base % modulo; // base^(2^0) = base^1 = base % modulo
     for(int i = 1; i < 256; i++) {
-        BigInt multResult = powModuloResult[i-1] * powModuloResult[i-1];
-        //std::cout << "multiplied" << std::endl;
-        powModuloResult[i] = (multResult) % modulo;
-        //std::cout << "modulo calculated" << std::endl;
+        //BigInt multResult = powModuloResult[i-1] * powModuloResult[i-1];
+        //powModuloResult[i] = (multResult) % modulo;
+        powModuloResult[i] = (powModuloResult[i-1] * powModuloResult[i-1]) % modulo;
+        std::cout << "powmodule " << i << " : " << powModuloResult[i].toHex() << std::endl;
     }
     std::cout << "powModule list built" << std::endl;
     BigInt result(1);
     BigInt powerLeft = power;
+    BigInt tmp;
     for(int i = 255; i >= 0; i--) {
-        BigInt tmp = pow(TWO_BIG_INT, BigInt(i));
+        tmp = pow(TWO_BIG_INT, BigInt(i));
         while(true) {
             if(powerLeft < tmp) break;
             result = result * powModuloResult[i] % modulo;
-            powerLeft = powerLeft - pow(TWO_BIG_INT, BigInt(i));
+            powerLeft = powerLeft - tmp;
+            std::cout << "result: " << result.toHex() << std::endl;
         }
         //std::cout << "powerLeft: " << powerLeft.toHex() << std::endl;
     }

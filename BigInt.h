@@ -24,7 +24,7 @@ public:
     friend bool operator>= (const BigInt& lop, const BigInt& rop);
 	friend bool operator== (const BigInt& lop, const BigInt& rop);
 	friend bool operator!= (const BigInt& lop, const BigInt& rop);
-	std::string toHex();// reference: https://stackoverflow.com/questions/5661101/how-to-convert-an-unsigned-character-array-into-a-hexadecimal-string-in-c
+	std::string toHex() const;// reference: https://stackoverflow.com/questions/5661101/how-to-convert-an-unsigned-character-array-into-a-hexadecimal-string-in-c
 	int getLength() const;
 	void put(unsigned int value); // put value to the rear
 	void insertZeros(int num); // insert zeros to the front
