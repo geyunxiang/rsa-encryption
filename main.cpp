@@ -43,30 +43,30 @@ int main(int argc, char const *argv[]) {
     // a = (d*d)/c;
     // std::cout << "power division calculated: " << a.toHex() << std::endl;
     
-    d.setValue("87AD3D06606BD9");
-    b.setValue("1B48460234FAE92ED937BEDA515BA1A1");
-    c.setValue("DA423011A7D74976C9BDF6D28ADD0D09");
-    std::cout << "d: " << d.toHex() << std::endl;
-    std::cout << "b: " << b.toHex() << std::endl;
-    std::cout << "c: " << c.toHex() << std::endl;
-    a = pow(d, b, c); // ans 6489059523318327863115348632635531620, 4E1BF55E9DF832062A6AD6BC00D6164
-    std::cout << "power modulo calculated: " << a.toHex() << std::endl;
+    // d.setValue("87AD3D06606BD9");
+    // b.setValue("1B48460234FAE92ED937BEDA515BA1A1");
+    // c.setValue("DA423011A7D74976C9BDF6D28ADD0D09");
+    // std::cout << "d: " << d.toHex() << std::endl;
+    // std::cout << "b: " << b.toHex() << std::endl;
+    // std::cout << "c: " << c.toHex() << std::endl;
+    // a = pow(d, b, c); // ans 6489059523318327863115348632635531620, 4E1BF55E9DF832062A6AD6BC00D6164
+    // std::cout << "power modulo calculated: " << a.toHex() << std::endl;
     
     
     //a.setValue("F1603517446C8E8365324DC981F1B064B6FC4003D5817A6EA64FE22374FD2E83");
     //std::cout << "prime test result: " << std::boolalpha << checkIfPrime(a) << std::endl;
     
-    // std::chrono::system_clock::time_point begin = std::chrono::system_clock::now();
-    // std::time_t tt;
-    // tt = std::chrono::system_clock::to_time_t ( begin );
+    std::chrono::system_clock::time_point begin = std::chrono::system_clock::now();
+    std::time_t tt;
+    tt = std::chrono::system_clock::to_time_t ( begin );
     
-    // while((a = generatePrimeWithBitLength(256)) == ZERO_BIG_INT) ;
-    // std::cout << "Random prime generated: " << a.toHex() << std::endl;
-    // std::time_t tt2;
-    // std::chrono::system_clock::time_point today = std::chrono::system_clock::now();
-    // tt2 = std::chrono::system_clock::to_time_t ( today );
-    // std::cout << "start on: " << ctime(&tt);
-    // std::cout << "end   on: " << ctime(&tt2);
+    while((a = generatePrimeWithBitLength(256)) == ZERO_BIG_INT) ;
+    std::cout << "Random prime generated: " << a.toHex() << std::endl;
+    std::time_t tt2;
+    std::chrono::system_clock::time_point today = std::chrono::system_clock::now();
+    tt2 = std::chrono::system_clock::to_time_t ( today );
+    std::cout << "start on: " << ctime(&tt);
+    std::cout << "end   on: " << ctime(&tt2);
     
 
     // a.setValue("2");

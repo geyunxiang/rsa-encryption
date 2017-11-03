@@ -366,7 +366,7 @@ BigInt pow(BigInt base, BigInt power, BigInt modulo) {
         powModuloResult[i] = (powModuloResult[i-1] * powModuloResult[i-1]) % modulo;
         //std::cout << "powmodule " << i << " : " << powModuloResult[i].toHex() << std::endl;
     }
-    std::cout << "powModule list built" << std::endl;
+    //std::cout << "powModule list built" << std::endl;
     BigInt result(1);
     BigInt powerLeft = power;
     BigInt tmp;
@@ -387,10 +387,10 @@ BigInt pow(BigInt base, BigInt power, BigInt modulo) {
 BigInt getRandomWithBitLength(int bitLength) {
     int vectorLength = bitLength / 8;
     BigInt result;
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    unsigned seed = static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count());
     std::mt19937 generator (seed);
     for(int i = 0; i < vectorLength; i++)
-        result.put(static_cast<byte>(generator()%256));
+        result.put(static_cast<unsigned int>(generator()%4294967295));
     return result;
 }
 
@@ -399,7 +399,7 @@ BigInt getRandom(BigInt lowerbound, BigInt upperbound) {
     int lowerLength = lowerbound.getLength(), upperLength = upperbound.getLength();
     int lengthGap = upperLength - lowerLength;
     int randGap = 0;
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    unsigned seed = static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count());
     std::mt19937 generator (seed);
     while (true) {
         randGap = lengthGap == 0 ? 0 : generator() % lengthGap;
