@@ -11,6 +11,10 @@
 int main(int argc, char const *argv[]) {
     BigInt a, b, c, d, p, q, s;
     
+    a.setValue("2FFFFFFFF");
+    a.increaseOne();
+    std::cout << "a equals: " << a.toHex() << std::endl;
+    
     //a.setValue("FFFFFFFFFFFFF");
     //std::cout << "a equals: " << a.toHex() << std::endl;
     
@@ -52,12 +56,12 @@ int main(int argc, char const *argv[]) {
     // c = getRandom(a, b);
     // std::cout << "random number: " << c.toHex() << std::endl;
     
-	p.setValue("1292F44D0E94BEE");
-	std::cout << "p equals " << p.toHex() << std::endl;
-	q.setValue("118FA76E");
-	std::cout << "q equals " << q.toHex() << std::endl;
-	BigInt r = p / q;
-	std::cout << "quotion equals " << r.toHex() << std::endl;
+	// p.setValue("1292F44D0E94BEE");
+	// std::cout << "p equals " << p.toHex() << std::endl;
+	// q.setValue("118FA76E");
+	// std::cout << "q equals " << q.toHex() << std::endl;
+	// BigInt r = p / q;
+	// std::cout << "quotion equals " << r.toHex() << std::endl;
 
 	// a.setValue("234534");
 	// b.setValue("abcdef1234");

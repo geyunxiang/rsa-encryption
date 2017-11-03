@@ -17,7 +17,7 @@ public:
 	friend BigInt operator*(const BigInt& lop, const BigInt& rop);
 	friend BigInt operator/(const BigInt& lop, const BigInt& rop);
 	friend BigInt operator%(const BigInt& lop, const BigInt& rop);
-    friend BigInt operator++(const BigInt& lop);
+    void increaseOne();
 	friend bool operator< (const BigInt& lop, const BigInt& rop);
     friend bool operator<= (const BigInt& lop, const BigInt& rop);
 	friend bool operator> (const BigInt& lop, const BigInt& rop);

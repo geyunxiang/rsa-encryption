@@ -259,7 +259,6 @@ BigInt operator/(const BigInt& lop, const BigInt& divider) {
 }
 
 BigInt operator%(const BigInt& lop, const BigInt& divider) {
-	//return lop-(lop/divider)*divider;
     if(lop < divider) {
         return lop;
     }
@@ -270,20 +269,33 @@ BigInt operator%(const BigInt& lop, const BigInt& divider) {
             dividen.setValue(0);
         } else if(dividen > divider) {
             // dividen > divider but their size equals
-            byte quot = divideResult(dividen, divider);
-            BigInt quotInt(quot);
-            dividen = dividen - multiplyOneDigit(divider, quotInt);
+            unsigned int quot = divideResult(dividen, divider);
+            dividen = dividen - multiplyOneDigit(divider, quot);
         }
     }
     dividen.trim();
     return dividen;
 }
 
-BigInt operator++(const BigInt& lop) {
-    BigInt rop;
-    rop.setValue("1");
-    return lop+rop;
+void BigInt::increaseOne() {
+    unsigned int carry = 0, oldValue = values[0];
+    values[0] ++;
+    for(int count = 0; count < values.size(); count ++) {
+        if(count != 0) {
+            oldValue = values[count];
+        }
+        values[count] += carry;
+        if (values[count] < oldValue) {
+            carry = 1;
+        } else {
+            carry = 0;
+            break;
+        }
+    }
+    if(carry != 0) 
+        values.push_back(carry);
 }
+
 
 // Comparisons
 bool operator== (const BigInt& lop, const BigInt& rop) {
@@ -301,8 +313,10 @@ bool operator< (const BigInt& lop, const BigInt& rop) {
 		return true;
 	} else if(lop.getLength() > rop.getLength()) {
 		return false;
-	} else {
-		// length equals
+    } else if(rop == lop){
+        return false;
+    } else {
+		// length equals and the two number does not equal
 		if(rop - lop == ZERO_BIG_INT) return false;
 		else return true;
 	}
@@ -322,8 +336,7 @@ bool operator>= (const BigInt& lop, const BigInt& rop) {
 
 // Other functions
 BigInt pow(BigInt base, BigInt power) {
-    BigInt result;
-    result.setValue("1");
+    BigInt result(1);
     BigInt counter;
     BigInt one;
     one.setValue("1");
