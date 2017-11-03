@@ -11,6 +11,9 @@
 int main(int argc, char const *argv[]) {
     BigInt a, b, c, d, p, q, s;
     
+    a.setValue(2847293);
+    std::cout << "a equals: " << a.toHex() << std::endl;
+
     //a.setValue("4668442");
     //b.setValue("AB2");
     //c = a % b;
@@ -26,17 +29,17 @@ int main(int argc, char const *argv[]) {
     //a.setValue("F1603517446C8E8365324DC981F1B064B6FC4003D5817A6EA64FE22374FD2E83");
     //std::cout << "prime test result: " << std::boolalpha << checkIfPrime(a) << std::endl;
     
-    std::chrono::system_clock::time_point begin = std::chrono::system_clock::now();
-    std::time_t tt;
-    tt = std::chrono::system_clock::to_time_t ( begin );
+    // std::chrono::system_clock::time_point begin = std::chrono::system_clock::now();
+    // std::time_t tt;
+    // tt = std::chrono::system_clock::to_time_t ( begin );
     
-    while((a = generatePrimeWithBitLength(256)) == ZERO_BIG_INT) ;
-    std::cout << "Random prime generated: " << a.toHex() << std::endl;
-    std::time_t tt2;
-    std::chrono::system_clock::time_point today = std::chrono::system_clock::now();
-    tt2 = std::chrono::system_clock::to_time_t ( today );
-    std::cout << "start on: " << ctime(&tt);
-    std::cout << "end   on: " << ctime(&tt2);
+    // while((a = generatePrimeWithBitLength(256)) == ZERO_BIG_INT) ;
+    // std::cout << "Random prime generated: " << a.toHex() << std::endl;
+    // std::time_t tt2;
+    // std::chrono::system_clock::time_point today = std::chrono::system_clock::now();
+    // tt2 = std::chrono::system_clock::to_time_t ( today );
+    // std::cout << "start on: " << ctime(&tt);
+    // std::cout << "end   on: " << ctime(&tt2);
     
 
     // a.setValue("2");

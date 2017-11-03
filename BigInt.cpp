@@ -10,7 +10,7 @@
 
 #define DEBUG false
 
-const int RESERVED_LENGTH = 1000;
+const int RESERVED_LENGTH = 500;
 
 // constructor
 BigInt::BigInt() {
@@ -23,11 +23,10 @@ BigInt::BigInt(unsigned int a) {
 }
 
 // Helper functions
-// not tested
 std::string BigInt::toHex() {
-	char converted[values.size()*2+1];
+	char converted[values.size()*8+1];
 	for(int i = 0; i < values.size(); i++) {
-		sprintf(&converted[i*2], "%02X", static_cast<int>(values.at(values.size() - i - 1)));
+		sprintf(&converted[i*8], "%X", values.at(values.size() - i - 1));
 	}
 	return std::string(converted);
 }
@@ -37,7 +36,7 @@ int BigInt::getLength() const {
 	return static_cast<int>(values.size());
 }
 
-// get the specific byte value
+// get the specific position value
 unsigned int BigInt::get(int index) const {
 	return values.at(index);
 }
@@ -54,13 +53,13 @@ void BigInt::insertZeros(int num) {
 	}
 }
 
-// insert byte value to the lowest pos
+// insert value to the lowest pos
 void BigInt::insert(unsigned int value) {
 	if(values.size() == 1 && values.at(0) == 0) values[0] = value;
 	else values.insert(values.begin(), value);
 }
 
-// make the bigint have value
+// set the value of this bigint
 void BigInt::setValue(unsigned int value) {
 	values = std::vector<unsigned int> (1, value);
     values.reserve(RESERVED_LENGTH);
@@ -71,21 +70,22 @@ void BigInt::setValue(unsigned int value) {
 void BigInt::setValue(std::string value) {
 	unsigned int buf;
 	values = std::vector<unsigned int>();
+    values.reserve(RESERVED_LENGTH);
 	for(int i = static_cast<int>(value.size()) - 2; i >= 0; i -= 2) {
 		std::stringstream ss;
-		ss << std::hex << value.substr(i, 2);
+		ss << std::hex << value.substr(i, 8); // 8 hex per int
 		ss >> buf;
-		values.push_back(static_cast<byte>(buf));
+		values.push_back(buf);
 		ss.str("");
 	}
-	if(value.size() % 2 == 1) {
+    // this need more test
+	if(value.size() % 8 != 0) {
 		std::stringstream ss;
 		ss << std::hex << value.at(0);
 		ss >> buf;
 		values.push_back(static_cast<byte>(buf));
 	}
 	this->trim();
-    values.reserve(RESERVED_LENGTH);
 }
 
 // Four basic operations
