@@ -91,15 +91,13 @@ void BigInt::setValue(std::string value) {
 // Four basic operations
 BigInt operator+(const BigInt& lop, const BigInt& rop) {
 	BigInt result;
-	byte carry = 0, op1, op2, digits_result;
+	unsigned int carry = 0, op1, op2, digits_result;
 	for(int count = 0; count < std::max(lop.getLength(), rop.getLength()); count ++) {
 		op1 = count < lop.getLength() ? lop.get(count) : 0;
 		op2 = count < rop.getLength() ? rop.get(count) : 0;
 		digits_result = op1 + op2 + carry;
 		if (digits_result - carry < std::max(op1, op2)) {
 			carry = 1;
-			//if(DEBUG) std::cout << "digits_result: " << static_cast<int>(digits_result) << std::endl;
-			//if(DEBUG) std::cout << "digits_result: " << static_cast<int>(digits_result) << std::endl;
 		} else {
 			carry = 0;
 		}
@@ -112,7 +110,7 @@ BigInt operator+(const BigInt& lop, const BigInt& rop) {
 
 BigInt operator-(const BigInt& lop, const BigInt& rop) {
 	BigInt result;
-	byte carry = 0, op1, op2, digits_result;
+	unsigned int carry = 0, op1, op2, digits_result;
 	if(lop.getLength() < rop.getLength()) {
 		result.setValue(0);
 		return result;
@@ -349,7 +347,7 @@ BigInt getRandom(BigInt lowerbound, BigInt upperbound) {
 
 // private functions
 void BigInt::trim() {
-	while(values.size() > 0 && static_cast<int>(values.back()) == 0) {
+	while(values.size() > 0 && values.back() == 0) {
 		values.pop_back();
 	}
 	if(values.size() == 0) {
