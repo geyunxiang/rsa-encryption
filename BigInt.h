@@ -10,7 +10,7 @@ typedef unsigned char byte;
 class BigInt {
 public:
     BigInt();
-    BigInt(byte a);
+    // BigInt(byte a);
     BigInt(int a);
 	~BigInt() {}
 	friend BigInt operator+(const BigInt& lop, const BigInt& rop);// reference: https://stackoverflow.com/questions/269268/how-to-implement-big-int-in-c
@@ -36,7 +36,7 @@ public:
 
 private:
 	void trim();
-	std::vector<byte> values;
+	std::vector<unsigned int> values;
 };
 
 const BigInt ZERO_BIG_INT = BigInt(0);

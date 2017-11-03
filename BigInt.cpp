@@ -17,11 +17,6 @@ BigInt::BigInt() {
     values.reserve(RESERVED_LENGTH);
 }
 
-BigInt::BigInt(byte a) {
-    values.reserve(RESERVED_LENGTH);
-    values.push_back(a);
-}
-
 BigInt::BigInt(int a) {
     values.reserve(RESERVED_LENGTH);
     if(a <= 255) values.push_back(a);
