@@ -76,6 +76,10 @@ BigInt generatePrimeWithBitLength(int bitLength) {
     return result;
 }
 
+BigInt phiPrime(BigInt p, BigInt q) {
+    return (p-ONE_BIG_INT)*(q-ONE_BIG_INT);
+}
+
 // Test functions
 BigInt generateOrderedPrime(int bitLength) {
     BigInt result(0);

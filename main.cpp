@@ -17,7 +17,7 @@ int main(int argc, char const *argv[]) {
     // a = (d*d)/c;
     // std::cout << "power division calculated: " << a.toHex() << std::endl;
     
-    test_checkIfPrime();
+    // test_checkIfPrime();
     
     // generate prime time test
     std::chrono::system_clock::time_point begin = std::chrono::system_clock::now();
