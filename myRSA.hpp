@@ -12,6 +12,12 @@
 #include <iostream>
 #include "BigInt.h"
 
+// two primes, p, q
+//   -> one public key n = pq
+// calculate phi(n) = (p-1)*(q-1)
+//   -> choose public key e, gcd(e, phi(n)) == 1
+// calculate d = e^-1 modulo phi(n), i.e. d*e = 1 modulo phi(n)
+//   -> private key is d
 class MyRSAClass {
 public:
     BigInt publicKey;
@@ -20,6 +26,8 @@ public:
     MyRSAClass(std::string publicKeyStr, std::string moduloNStr); // initialize with public key and str for encryption
     MyRSAClass(std::string publicKeyStr, std::string moduloNStr, std::string privateKeyStr);
     void regenerateKeyPairsWithBitLength(int keyBitLength);
+    BigInt encryptNumber(BigInt plain);
+    BigInt decryptNumber(BigInt cypher);
     std::string encryptPlainText(std::string plainText);
     std::string decryptCypherText(std::string cypherText);
     BigInt getPrivateKey(); // for debug usage only

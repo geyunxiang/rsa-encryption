@@ -80,6 +80,10 @@ BigInt phiPrime(BigInt p, BigInt q) {
     return (p-ONE_BIG_INT)*(q-ONE_BIG_INT);
 }
 
+// MyRSAClass functions
+
+
+
 // Test functions
 BigInt generateOrderedPrime(int bitLength) {
     BigInt result(0);
