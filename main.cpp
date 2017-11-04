@@ -16,12 +16,14 @@ int main(int argc, char const *argv[]) {
     // std::cout << "multiply result: " << (d*d).toHex() << std::endl;
     // a = (d*d)/c;
     // std::cout << "power division calculated: " << a.toHex() << std::endl;
-
+    
+    test_checkIfPrime();
+    
     // generate prime time test
     std::chrono::system_clock::time_point begin = std::chrono::system_clock::now();
     std::time_t tt;
     tt = std::chrono::system_clock::to_time_t ( begin );
-    while((a = generatePrimeWithBitLength(256)) == ZERO_BIG_INT) ;
+    while((a = generatePrimeWithBitLength(768)) == ZERO_BIG_INT) ;
     std::cout << "Random prime generated: " << a.toHex() << std::endl;
     std::time_t tt2;
     std::chrono::system_clock::time_point today = std::chrono::system_clock::now();

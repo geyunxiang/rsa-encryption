@@ -358,19 +358,21 @@ BigInt pow(BigInt base, BigInt power) {
 }
 
 BigInt pow(BigInt base, BigInt power, BigInt modulo) {
-    BigInt powModuloResult[256]; // base^(2^i) % modulo = powModuloResult[i]
+    int listLength = power.getLength()*32;
+    BigInt* powModuloResult = new BigInt[listLength]; // base^(2^i) % modulo = powModuloResult[i]
+    //BigInt powModuloResult[256];
     powModuloResult[0] = base % modulo; // base^(2^0) = base^1 = base % modulo
-    for(int i = 1; i < 256; i++) {
+    for(int i = 1; i < listLength; i++) {
         //BigInt multResult = powModuloResult[i-1] * powModuloResult[i-1];
         //powModuloResult[i] = (multResult) % modulo;
         powModuloResult[i] = (powModuloResult[i-1] * powModuloResult[i-1]) % modulo;
         //std::cout << "powmodule " << i << " : " << powModuloResult[i].toHex() << std::endl;
     }
-    //std::cout << "powModule list built" << std::endl;
+    std::cout << "powModule list built" << std::endl;
     BigInt result(1);
     BigInt powerLeft = power;
     BigInt tmp;
-    for(int i = 255; i >= 0; i--) {
+    for(int i = listLength-1; i >= 0; i--) {
         tmp = pow(TWO_BIG_INT, BigInt(i));
         while(true) {
             if(powerLeft < tmp) break;
@@ -381,6 +383,7 @@ BigInt pow(BigInt base, BigInt power, BigInt modulo) {
         //std::cout << "powerLeft: " << powerLeft.toHex() << std::endl;
     }
     //std::cout << "powerLeft: " << powerLeft.toHex() << std::endl;
+    delete [] powModuloResult;
     return result;
 }
 
