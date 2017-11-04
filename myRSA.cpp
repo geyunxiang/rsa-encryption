@@ -49,12 +49,6 @@ bool RabinMiller(BigInt p) {
     return true;
 }
 
-void listLowPrimes() {
-    for(int i = 0; i < 167; i++) {
-        std::cout << lowPrimes[i].toHex() << std::endl;
-    }
-}
-
 bool checkIfPrime(BigInt p) {
     if(p % TWO_BIG_INT == 0) return false;
     for(int i = 0; i < 150; i++) {// change this number to first filter out more low primes
@@ -67,17 +61,6 @@ bool checkIfPrime(BigInt p) {
         }
     }
     return RabinMiller(p);
-}
-
-BigInt generateOrderedPrime(int bitLength) {
-    BigInt result(0);
-    BigInt randInt;
-    BigInt start = pow(TWO_BIG_INT, BigInt(bitLength-1)), end = pow(TWO_BIG_INT, BigInt(bitLength));
-    for(BigInt idx = start; idx < end; idx = idx + ONE_BIG_INT){
-        //if(DEBUG) std::cout << "Trial: " << idx.toHex() << std::endl;
-        if(checkIfPrime(idx)) return idx;
-    }
-    return result;
 }
 
 BigInt generatePrimeWithBitLength(int bitLength) {
@@ -93,3 +76,20 @@ BigInt generatePrimeWithBitLength(int bitLength) {
     return result;
 }
 
+// Test functions
+BigInt generateOrderedPrime(int bitLength) {
+    BigInt result(0);
+    BigInt randInt;
+    BigInt start = pow(TWO_BIG_INT, BigInt(bitLength-1)), end = pow(TWO_BIG_INT, BigInt(bitLength));
+    for(BigInt idx = start; idx < end; idx = idx + ONE_BIG_INT){
+        //if(DEBUG) std::cout << "Trial: " << idx.toHex() << std::endl;
+        if(checkIfPrime(idx)) return idx;
+    }
+    return result;
+}
+
+void listLowPrimes() {
+    for(int i = 0; i < 167; i++) {
+        std::cout << lowPrimes[i].toHex() << std::endl;
+    }
+}
