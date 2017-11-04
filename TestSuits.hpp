@@ -22,6 +22,7 @@ void test_divisionOperator();
 void test_moduloOperator();
 void test_comparisionOperator();
 void test_pow();
+void test_powModulo();
 void test_checkIfPrime();
 void test_getRandom();
 
