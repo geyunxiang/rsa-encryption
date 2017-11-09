@@ -26,9 +26,10 @@ BigInt::BigInt(unsigned int a) {
 
 // Helper functions
 std::string BigInt::toHex() const {
-	char converted[values.size()*8+1];
+	char converted[values.size()*8+2];
+    converted[0] = negative ? '-' : '+';
 	for(int i = 0; i < values.size(); i++) {
-		sprintf(&converted[i*8], "%08X", values.at(values.size() - i - 1));
+		sprintf(&converted[i*8+1], "%08X", values.at(values.size() - i - 1));
 	}
     std::string result(converted);
     // std::replace(result.begin(), result.end(), '0', '');
@@ -134,6 +135,8 @@ BigInt operator+(const BigInt& lop, const BigInt& rop) {
 //      -- if lop < 0 and rop >= 0, return lop + rop.reverseSign() (-3-5) == ((-3) + (-5))
 //      -- if lop >= 0 and rop < 0, return lop + rop.reverseSign() (5-(-3)) == (5 + 3)
 //      -- if lop >= 0 and rop >= 0, proceed.
+//          -- if lop >= rop, proceed.
+//          -- if lop < rop, return -(rop-lop)
 BigInt operator-(const BigInt& lop, const BigInt& rop) {
     if(lop.isNegative()) {
         BigInt newlop = lop, newrop = rop;
@@ -151,12 +154,13 @@ BigInt operator-(const BigInt& lop, const BigInt& rop) {
         return lop + newrop;
     }
     // lop >= 0, rop >= 0
-	BigInt result;
+    BigInt result;
+    if(lop < rop) {
+        result = rop - lop;
+        result.reverseSign();
+        return result;
+    }
 	unsigned int carry = 0, op1, op2, digits_result;
-	//if(lop.getLength() < rop.getLength()) {
-	//	result.setValue(0);
-	//	return result;
-	//}
 	int count;
 	for(count = 0; count < rop.getLength(); count ++) {
         op1 = count < lop.getLength() ? lop.get(count) : 0;
@@ -183,7 +187,10 @@ BigInt operator-(const BigInt& lop, const BigInt& rop) {
 		result.put(digits_result);
 		count ++;
 	}
-	if(carry == 1) result.reverseSign();
+    if(carry == 1) {
+        std::cout << "This code should never be executed as well" << std::endl;
+        result.reverseSign();
+    }
 	result.trim();
 	return result;
 }
@@ -363,6 +370,7 @@ bool operator== (const BigInt& lop, const BigInt& rop) {
 
 bool operator!= (const BigInt& lop, const BigInt& rop) {return !(lop==rop);}
 
+// implemented independent of minus operator
 bool operator< (const BigInt& lop, const BigInt& rop) {
 	if(lop.getLength() < rop.getLength()) {
 		return true;
@@ -371,9 +379,24 @@ bool operator< (const BigInt& lop, const BigInt& rop) {
     } else if(rop == lop){
         return false;
     } else {
-		// length equals and the two number does not equal
-		if(rop - lop == ZERO_BIG_INT) return false;
-		else return true;
+        // length equals and the two number does not equal
+        unsigned int carry = 0, op1, op2, digits_result;
+        int count;
+        for(count = 0; count < rop.getLength(); count ++) {
+            op1 = lop.get(count);
+            op2 = rop.get(count);
+            digits_result = op1 - op2 - carry;
+            if(digits_result + carry > op1) {
+                carry = 1;
+            } else if(digits_result + carry == 0 && carry == 1) {
+                // if op1 - op2 == 0, and carry = 1, then still set carry = 1
+                carry = 1;
+            } else {
+                carry = 0;
+            }
+        }
+        if(carry == 1) return true;
+        return false;
 	}
 }
 

@@ -37,16 +37,18 @@ void test_setValueInt() {
 
 void test_additionOperator() {
     BigInt a, b, c;
-    a.setValue("234534");
-    b.setValue("abcdef1234");
+    a.setValue("3");
+    b.setValue("4");
+    b.reverseSign();
     c = a + b;
     std::cout << "addition result: " << c.toHex() << std::endl;
 }
 
 void test_minusOperator() {
     BigInt a, b, c;
-    a.setValue("1C34F076569D6A0E6F842299AC343D06C5999945");
-    b.setValue("1C34F076D6319132FE4FB6511404FF64E354D60E");
+    a.setValue("3");
+    b.setValue("476");
+    //b.reverseSign();
     c = a - b;
     std::cout << "submission result: " << c.toHex() << std::endl;
 }
@@ -79,11 +81,10 @@ void test_comparisionOperator() {
     BigInt a, b, c, d;
     a.setValue("400");
     b.setValue("10");
-    c.setValue("40");
-    d = b*c;
-    std::cout << "comparison result: " << std::boolalpha << (a == (b*c)) << std::endl;
-    std::cout << "comparison result: " << std::boolalpha << (a == d) << std::endl;
-    std::cout << "a.length: " << a.getLength() << "  d.length: " << d.getLength() << std::endl;
+    c.setValue("401");
+    std::cout << "comparison result: " << std::boolalpha << (a < b) << std::endl;
+    std::cout << "comparison result: " << std::boolalpha << (a < c) << std::endl;
+    //std::cout << "a.length: " << a.getLength() << "  c.length: " << c.getLength() << std::endl;
 }
 
 void test_pow() {
