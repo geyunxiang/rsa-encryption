@@ -35,7 +35,9 @@ private:
     BigInt privateKey;
 };
 
+// calculate the inverse of e with the specified modulo
 BigInt inverseModulo(BigInt e, BigInt modulo);
+int inverseModulo(int c, int modulo);
 
 // calculate phi(pq) where p and q are primes
 BigInt phiPrime(BigInt p, BigInt q);

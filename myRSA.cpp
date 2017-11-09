@@ -80,6 +80,41 @@ BigInt phiPrime(BigInt p, BigInt q) {
     return (p-ONE_BIG_INT)*(q-ONE_BIG_INT);
 }
 
+BigInt inverseModulo(BigInt e, BigInt modulo) {
+    BigInt result;
+    
+    // 1. a^(-1) = a.pow(phi(n)-1) mod n
+    // 2. 1 = au + nv --> u = a^(-1) mod n
+    // here 1 = e*result + modulo*v
+    // perform the extended euclidean algorithm on e and modulo
+    
+    
+    return result;
+}
+
+int inverseModulo(int c, int modulo) {
+    // an implementation of the extended euclid algorithm
+    // with small integers
+    int u = 1, e = 0, v = 0, f = 1, a = c, b = modulo, q, r, tmp;
+    while(b != 0) {
+        q = a/b;
+        r = a%b;
+        
+        tmp = a;
+        a = b;
+        b = r;
+        
+        tmp = u;
+        u = e;
+        e = tmp-q*e;
+        
+        tmp = v;
+        v = f;
+        f = tmp-q*f;
+    }
+    return u;
+}
+
 // MyRSAClass functions
 
 

@@ -9,7 +9,7 @@
 
 int main(int argc, char const *argv[]) {
     BigInt a, b, c, d, p, q, s;
-    
+    test_inverseModuloInt();
     // test this next
     // d.setValue("81C9EEF9652B102EE88DC1F637DC06DD");
     // c.setValue("DA423011A7D74976C9BDF6D28ADD0D09");
@@ -18,7 +18,7 @@ int main(int argc, char const *argv[]) {
     // std::cout << "power division calculated: " << a.toHex() << std::endl;
     
     // test_checkIfPrime();
-    
+    /*
     // generate prime time test
     std::chrono::system_clock::time_point begin = std::chrono::system_clock::now();
     std::time_t tt;
@@ -30,7 +30,7 @@ int main(int argc, char const *argv[]) {
     tt2 = std::chrono::system_clock::to_time_t ( today );
     std::cout << "start on: " << ctime(&tt);
     std::cout << "end   on: " << ctime(&tt2);
-
+    */
 	// unsigned int x, y;
 	// x = 143738293;
 	// y = 217827364;

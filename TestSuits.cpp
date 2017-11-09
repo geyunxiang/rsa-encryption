@@ -9,6 +9,11 @@
 #include "TestSuits.hpp"
 #include <iostream>
 
+void test_inverseModuloInt() {
+    int result = inverseModulo(4, 11);
+    std::cout << "inverse modulo calculated as: " << result << std::endl;
+}
+
 void test_increaseOne() {
     BigInt a;
     a.setValue("2FFFFFFFF");
