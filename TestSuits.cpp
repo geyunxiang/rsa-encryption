@@ -9,6 +9,18 @@
 #include "TestSuits.hpp"
 #include <iostream>
 
+void test_RSAConstructor() {
+    std::chrono::system_clock::time_point begin = std::chrono::system_clock::now();
+    std::time_t tt;
+    tt = std::chrono::system_clock::to_time_t ( begin );
+    MyRSAClass rsaEncryptor(256);
+    std::time_t tt2;
+    std::chrono::system_clock::time_point today = std::chrono::system_clock::now();
+    tt2 = std::chrono::system_clock::to_time_t ( today );
+    std::cout << "start on: " << ctime(&tt);
+    std::cout << "end   on: " << ctime(&tt2);
+}
+
 void test_inverseModulo() {
     BigInt c, modulo, u;
     c.setValue(198);
