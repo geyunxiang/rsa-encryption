@@ -12,6 +12,7 @@
 #include "BigInt.h"
 #include "myRSA.hpp"
 
+void test_inverseModulo();
 void test_inverseModuloInt();
 void test_increaseOne();
 void test_setValueString();

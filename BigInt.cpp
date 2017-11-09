@@ -101,12 +101,12 @@ void BigInt::reverseSign() {
 // The sign of inputs to this function must be consistent.
 // I.e., either all positive or all negative
 BigInt operator+(const BigInt& lop, const BigInt& rop) {
-    if(lop.isNegative()) {
+    if(lop.isNegative() && !rop.isNegative()) {
         BigInt newlop = lop;
         newlop.reverseSign();
         return rop-newlop;
     }
-    if(rop.isNegative()) {
+    if(rop.isNegative() && !lop.isNegative()) {
         BigInt newrop = rop;
         newrop.reverseSign();
         return lop-newrop;

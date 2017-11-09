@@ -80,16 +80,34 @@ BigInt phiPrime(BigInt p, BigInt q) {
     return (p-ONE_BIG_INT)*(q-ONE_BIG_INT);
 }
 
-BigInt inverseModulo(BigInt e, BigInt modulo) {
-    BigInt result;
-    
+BigInt inverseModulo(BigInt c, BigInt modulo) {
     // 1. a^(-1) = a.pow(phi(n)-1) mod n
     // 2. 1 = au + nv --> u = a^(-1) mod n
     // here 1 = e*result + modulo*v
     // perform the extended euclidean algorithm on e and modulo
-    
-    
-    return result;
+    BigInt u = 1, e = 0, v = 0, f = 1, a = c, b = modulo, q, r, tmp;
+    while(b != ZERO_BIG_INT) {
+        //std::cout << "b equals: " << b.toHex() << std::endl;
+        q = a/b;
+        r = a%b;
+        
+        tmp = a;
+        a = b;
+        b = r;
+        
+        tmp = u;
+        //std::cout << "tmp equals: " << tmp.toHex() << std::endl;
+        //std::cout << "q equals: " << q.toHex() << std::endl;
+        //std::cout << "e equals: " << e.toHex() << std::endl;
+        u = e;
+        e = tmp-q*e;
+        
+        tmp = v;
+        v = f;
+        f = tmp-q*f;
+    }
+    if(u.isNegative()) return u+modulo;
+    return u;
 }
 
 int inverseModulo(int c, int modulo) {

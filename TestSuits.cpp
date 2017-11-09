@@ -9,6 +9,14 @@
 #include "TestSuits.hpp"
 #include <iostream>
 
+void test_inverseModulo() {
+    BigInt c, modulo, u;
+    c.setValue(198);
+    modulo.setValue(252);
+    u = inverseModulo(c, modulo);
+    std::cout << "inverse modulo calculated as: " << u.toHex() << std::endl;
+}
+
 void test_inverseModuloInt() {
     int result = inverseModulo(4, 11);
     std::cout << "inverse modulo calculated as: " << result << std::endl;
