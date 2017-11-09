@@ -11,6 +11,7 @@ int main(int argc, char const *argv[]) {
     BigInt a, b, c, d, p, q, s;
     test_additionOperator();
     test_minusOperator();
+    test_multiplicationOperator();
     //test_comparisionOperator();
     // test this next
     // d.setValue("81C9EEF9652B102EE88DC1F637DC06DD");

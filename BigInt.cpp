@@ -241,6 +241,8 @@ BigInt operator*(const BigInt& lop, const BigInt& rop) {
 		// posresult.trim();
 		result = result + posresult;
 	}
+    if(lop.isNegative() && !rop.isNegative()) result.reverseSign();
+    if(!lop.isNegative() && rop.isNegative()) result.reverseSign();
 	return result;
 }
 

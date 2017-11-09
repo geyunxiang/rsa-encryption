@@ -59,6 +59,9 @@ void test_multiplicationOperator() {
     b.setValue(294627182);
     c = a * b;
     std::cout << "multiplication result: " << c.toHex() << std::endl;
+    b.reverseSign();
+    c = a * b;
+    std::cout << "multiplication result: " << c.toHex() << std::endl;
 }
 
 void test_divisionOperator() {
