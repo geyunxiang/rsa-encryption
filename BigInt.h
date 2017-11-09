@@ -32,10 +32,12 @@ public:
 	unsigned int get(int index) const;
 	void setValue(std::string value);
 	void setValue(unsigned int value); // set single byte value
-
+    bool isNegative();
+    
 private:
 	void trim();
 	std::vector<unsigned int> values;
+    bool negative;
 };
 
 const BigInt ZERO_BIG_INT = BigInt(0);

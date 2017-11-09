@@ -15,11 +15,13 @@ const int RESERVED_LENGTH = 500;
 // constructor
 BigInt::BigInt() {
     values.reserve(RESERVED_LENGTH);
+    negative = false;
 }
 
 BigInt::BigInt(unsigned int a) {
     values.reserve(RESERVED_LENGTH);
     values.push_back(a);
+    negative = false;
 }
 
 // Helper functions
@@ -65,6 +67,7 @@ void BigInt::insert(unsigned int value) {
 void BigInt::setValue(unsigned int value) {
 	values = std::vector<unsigned int> (1, value);
     values.reserve(RESERVED_LENGTH);
+    negative = false;
 }
 
 // init BigInt from string or reset its value
@@ -86,6 +89,7 @@ void BigInt::setValue(std::string value) {
 		values.push_back(buf);
 	}
 	this->trim();
+    negative = false;
 }
 
 // Four basic operations
@@ -345,6 +349,10 @@ bool operator> (const BigInt& lop, const BigInt& rop) {
 
 bool operator>= (const BigInt& lop, const BigInt& rop) {
     return lop > rop || lop == rop;
+}
+
+bool BigInt::isNegative() {
+    return this->negative;
 }
 
 // Other functions
