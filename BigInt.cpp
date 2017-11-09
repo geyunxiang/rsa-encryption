@@ -362,6 +362,8 @@ void BigInt::increaseOne() {
 // Comparisons
 bool operator== (const BigInt& lop, const BigInt& rop) {
 	if(lop.getLength() != rop.getLength()) return false;
+    if(lop.isNegative() && !rop.isNegative()) return false;
+    if(!lop.isNegative() && rop.isNegative()) return false;
 	for(int i = 0; i < lop.getLength(); i++) {
 		if(lop.get(i) != rop.get(i)) return false;
 	}
@@ -372,7 +374,17 @@ bool operator!= (const BigInt& lop, const BigInt& rop) {return !(lop==rop);}
 
 // implemented independent of minus operator
 bool operator< (const BigInt& lop, const BigInt& rop) {
-	if(lop.getLength() < rop.getLength()) {
+    if(lop.isNegative() && !rop.isNegative()) return true;
+    if(!lop.isNegative() && rop.isNegative()) return false;
+    if(lop.isNegative() && rop.isNegative()) {
+        // -3 < -5 ? <==> 5 < 3 ?
+        BigInt newlop = lop, newrop = rop;
+        newlop.reverseSign();
+        newrop.reverseSign();
+        return newrop < newlop;
+    }
+    // lop >= 0, rop >= 0
+    if(lop.getLength() < rop.getLength()) {
 		return true;
 	} else if(lop.getLength() > rop.getLength()) {
 		return false;
