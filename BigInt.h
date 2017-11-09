@@ -32,7 +32,8 @@ public:
 	unsigned int get(int index) const;
 	void setValue(std::string value);
 	void setValue(unsigned int value); // set single byte value
-    bool isNegative();
+    bool isNegative() const;
+    void reverseSign();
     
 private:
 	void trim();

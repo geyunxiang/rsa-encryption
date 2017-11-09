@@ -93,8 +93,24 @@ void BigInt::setValue(std::string value) {
 }
 
 // Four basic operations
+void BigInt::reverseSign() {
+    this->negative = !this->negative;
+}
+
+// The sign of inputs to this function must be consistent.
+// I.e., either all positive or all negative
 BigInt operator+(const BigInt& lop, const BigInt& rop) {
-	BigInt result;
+    if(lop.isNegative()) {
+        BigInt newlop = lop;
+        newlop.reverseSign();
+        return rop-newlop;
+    }
+    if(rop.isNegative()) {
+        BigInt newrop = rop;
+        newrop.reverseSign();
+        return lop-newrop;
+    }
+    BigInt result;
 	unsigned int carry = 0, op1, op2, digits_result;
 	for(int count = 0; count < std::max(lop.getLength(), rop.getLength()); count ++) {
 		op1 = count < lop.getLength() ? lop.get(count) : 0;
@@ -109,19 +125,41 @@ BigInt operator+(const BigInt& lop, const BigInt& rop) {
 	}
 	if(carry != 0) 
 		result.put(carry);
+    if(lop.isNegative() && rop.isNegative()) result.reverseSign();
 	return result;
 }
 
+// lop should not be negative (should be positive or zero)
+//      -- if lop < 0 and rop < 0, return rop.reverseSign() - lop.reverseSign() (-3-(-5)) == (5 - 3)
+//      -- if lop < 0 and rop >= 0, return lop + rop.reverseSign() (-3-5) == ((-3) + (-5))
+//      -- if lop >= 0 and rop < 0, return lop + rop.reverseSign() (5-(-3)) == (5 + 3)
+//      -- if lop >= 0 and rop >= 0, proceed.
 BigInt operator-(const BigInt& lop, const BigInt& rop) {
+    if(lop.isNegative()) {
+        BigInt newlop = lop, newrop = rop;
+        if(rop.isNegative()) {
+            newrop.reverseSign();
+            newlop.reverseSign();
+            return newrop - newlop;
+        }
+        newrop.reverseSign();
+        return newlop + newrop;
+    }
+    if(rop.isNegative()) {
+        BigInt newrop = rop;
+        newrop.reverseSign();
+        return lop + newrop;
+    }
+    // lop >= 0, rop >= 0
 	BigInt result;
 	unsigned int carry = 0, op1, op2, digits_result;
-	if(lop.getLength() < rop.getLength()) {
-		result.setValue(0);
-		return result;
-	}
+	//if(lop.getLength() < rop.getLength()) {
+	//	result.setValue(0);
+	//	return result;
+	//}
 	int count;
 	for(count = 0; count < rop.getLength(); count ++) {
-		op1 = lop.get(count);
+        op1 = count < lop.getLength() ? lop.get(count) : 0;
 		op2 = rop.get(count);
 		digits_result = op1 - op2 - carry;
 		if(digits_result + carry > op1) {
@@ -145,7 +183,7 @@ BigInt operator-(const BigInt& lop, const BigInt& rop) {
 		result.put(digits_result);
 		count ++;
 	}
-	if(carry == 1) result.setValue(0);
+	if(carry == 1) result.reverseSign();
 	result.trim();
 	return result;
 }
@@ -351,7 +389,7 @@ bool operator>= (const BigInt& lop, const BigInt& rop) {
     return lop > rop || lop == rop;
 }
 
-bool BigInt::isNegative() {
+bool BigInt::isNegative() const {
     return this->negative;
 }
 
