@@ -141,15 +141,7 @@ MyRSAClass::MyRSAClass(int keyBitLength) {
     // 3. calculate phi(moduloN)
     // 4. choose random public key e with above bit length and e != 1
     // 5. calculate private key d = inverseModulo(e, phi(moduloN))
-    BigInt p, q, phi;
-    while((p = generatePrimeWithBitLength(keyBitLength)) == ZERO_BIG_INT) ;
-    this->p = p;
-    while((q = generatePrimeWithBitLength(keyBitLength)) == ZERO_BIG_INT || q == p) ;
-    this->q = q;
-    moduloN = p*q;
-    phi = phiPrime(p, q);
-    publicKey = getRandom(pow(TWO_BIG_INT, BigInt(keyBitLength-1)), pow(TWO_BIG_INT, BigInt(keyBitLength)));
-    privateKey = inverseModulo(publicKey, phi);
+    regenerateKeyPairsWithBitLength(keyBitLength);
 }
 
 MyRSAClass::MyRSAClass(std::string publicKeyStr, std::string moduloNStr) {
@@ -161,6 +153,28 @@ MyRSAClass::MyRSAClass(std::string publicKeyStr, std::string moduloNStr, std::st
     publicKey.setValue(publicKeyStr);
     moduloN.setValue(moduloNStr);
     privateKey.setValue(privateKeyStr);
+}
+
+void MyRSAClass::regenerateKeyPairsWithBitLength(int keyBitLength) {
+    BigInt p, q, phi;
+    while((p = generatePrimeWithBitLength(keyBitLength)) == ZERO_BIG_INT) ;
+    this->p = p;
+    while((q = generatePrimeWithBitLength(keyBitLength)) == ZERO_BIG_INT || q == p) ;
+    this->q = q;
+    moduloN = p*q;
+    phi = phiPrime(p, q);
+    publicKey = getRandom(pow(TWO_BIG_INT, BigInt(keyBitLength-1)), pow(TWO_BIG_INT, BigInt(keyBitLength)));
+    privateKey = inverseModulo(publicKey, phi);
+}
+
+BigInt MyRSAClass::encryptNumber(BigInt plain) {
+    // computes pow(plain, publicKey, moduloN)
+    return pow(plain, publicKey, moduloN);
+}
+
+BigInt MyRSAClass::decryptNumber(BigInt cypher) {
+    // computes pow(cypher, privateKey, moduloN)
+    return pow(cypher, privateKey, moduloN);
 }
 
 // Test functions
