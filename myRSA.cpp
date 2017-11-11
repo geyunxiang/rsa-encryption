@@ -134,6 +134,7 @@ int inverseModulo(int c, int modulo) {
 }
 
 // MyRSAClass functions
+// Constructors
 MyRSAClass::MyRSAClass(int keyBitLength) {
     // 1. generate prime p, q with above bit length
     // 2. moduloN = pq
@@ -142,7 +143,9 @@ MyRSAClass::MyRSAClass(int keyBitLength) {
     // 5. calculate private key d = inverseModulo(e, phi(moduloN))
     BigInt p, q, phi;
     while((p = generatePrimeWithBitLength(keyBitLength)) == ZERO_BIG_INT) ;
+    this->p = p;
     while((q = generatePrimeWithBitLength(keyBitLength)) == ZERO_BIG_INT || q == p) ;
+    this->q = q;
     moduloN = p*q;
     phi = phiPrime(p, q);
     publicKey = getRandom(pow(TWO_BIG_INT, BigInt(keyBitLength-1)), pow(TWO_BIG_INT, BigInt(keyBitLength)));

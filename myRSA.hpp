@@ -33,6 +33,8 @@ public:
     BigInt getPrivateKey(); // for debug usage only
 private:
     BigInt privateKey;
+    BigInt p; // big prime used to calculate moduloN
+    BigInt q;
 };
 
 // calculate the inverse of e with the specified modulo
