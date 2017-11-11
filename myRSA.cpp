@@ -85,7 +85,7 @@ BigInt inverseModulo(BigInt c, BigInt modulo) {
     // 2. 1 = au + nv --> u = a^(-1) mod n
     // here 1 = e*result + modulo*v
     // perform the extended euclidean algorithm on e and modulo
-    BigInt u = 1, e = 0, v = 0, f = 1, a = c, b = modulo, q, r, tmp;
+    BigInt u = ONE_BIG_INT, e = ZERO_BIG_INT, v = ZERO_BIG_INT, f = ONE_BIG_INT, a = c, b = modulo, q, r, tmp;
     while(b != ZERO_BIG_INT) {
         //std::cout << "b equals: " << b.toHex() << std::endl;
         q = a/b;
@@ -106,7 +106,17 @@ BigInt inverseModulo(BigInt c, BigInt modulo) {
         v = f;
         f = tmp-q*f;
     }
-    if(u.isNegative()) return u+modulo;
+    if(a != ONE_BIG_INT) {
+        // this public key is not valid!
+        std::cout << "Invalid public key choice!" << std::endl;
+        return ZERO_BIG_INT;
+    }
+    std::cout << "a equals: " << a.toHex() << std::endl;
+    if(u.isNegative()) {
+        std::cout << "u equals: " << u.toHex() << std::endl;
+        std::cout << "m equals: " << modulo.toHex() << std::endl;
+        return u+modulo;
+    }
     return u;
 }
 
@@ -164,7 +174,8 @@ void MyRSAClass::regenerateKeyPairsWithBitLength(int keyBitLength) {
     moduloN = p*q;
     phi = phiPrime(p, q);
     publicKey = getRandom(pow(TWO_BIG_INT, BigInt(keyBitLength-1)), pow(TWO_BIG_INT, BigInt(keyBitLength)));
-    privateKey = inverseModulo(publicKey, phi);
+    while((privateKey = inverseModulo(publicKey, phi)) == ZERO_BIG_INT)
+        publicKey = getRandom(pow(TWO_BIG_INT, BigInt(keyBitLength-1)), pow(TWO_BIG_INT, BigInt(keyBitLength)));
 }
 
 BigInt MyRSAClass::encryptNumber(BigInt plain) {
@@ -175,6 +186,20 @@ BigInt MyRSAClass::encryptNumber(BigInt plain) {
 BigInt MyRSAClass::decryptNumber(BigInt cypher) {
     // computes pow(cypher, privateKey, moduloN)
     return pow(cypher, privateKey, moduloN);
+}
+
+
+// For debug usage only
+BigInt MyRSAClass::getPrivateKey() {
+    return privateKey;
+}
+
+BigInt MyRSAClass::getP() {
+    return p;
+}
+
+BigInt MyRSAClass::getQ() {
+    return q;
 }
 
 // Test functions

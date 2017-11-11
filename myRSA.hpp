@@ -31,6 +31,8 @@ public:
     std::string encryptPlainText(std::string plainText);
     std::string decryptCypherText(std::string cypherText);
     BigInt getPrivateKey(); // for debug usage only
+    BigInt getP(); // for debug usage only
+    BigInt getQ(); // for debug usage only
 private:
     BigInt privateKey;
     BigInt p; // big prime used to calculate moduloN

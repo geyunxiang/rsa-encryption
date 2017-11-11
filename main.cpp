@@ -10,7 +10,10 @@
 int main(int argc, char const *argv[]) {
     BigInt a, b, c, d, p, q, s;
     //test_inverseModulo();
-    test_RSAConstructor();
+    test_RSABigIntEncryptionDecryption();
+    //test_RSAConstructor();
+    //test_multiplicationOperator();
+    //test_minusOperator();
     // test this next
     // d.setValue("81C9EEF9652B102EE88DC1F637DC06DD");
     // c.setValue("DA423011A7D74976C9BDF6D28ADD0D09");

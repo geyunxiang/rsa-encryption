@@ -9,6 +9,23 @@
 #include "TestSuits.hpp"
 #include <iostream>
 
+void test_RSABigIntEncryptionDecryption() {
+    MyRSAClass rsaClass(128);
+    std::cout << "RSA Class built\n";
+    std::cout << "RSA public key: " << rsaClass.publicKey.toHex() << std::endl;
+    std::cout << "RSA private key: " << rsaClass.getPrivateKey().toHex() << std::endl;
+    std::cout << "RSA modulo N: " << rsaClass.moduloN.toHex() << std::endl;
+    std::cout << "RSA prime p: " << rsaClass.getP().toHex() << std::endl;
+    std::cout << "RSA prime q: " << rsaClass.getQ().toHex() << std::endl;
+    BigInt plain, cypher, decrypted;
+    plain.setValue("1de239a79b");
+    std::cout << "plain number is: " << plain.toHex() << std::endl;
+    cypher = rsaClass.encryptNumber(plain);
+    std::cout << "cypher number is: " << cypher.toHex() << std::endl;
+    decrypted = rsaClass.decryptNumber(cypher);
+    std::cout << "decrypted number is: " << decrypted.toHex() << std::endl;
+}
+
 void test_RSAConstructor() {
     std::chrono::system_clock::time_point begin = std::chrono::system_clock::now();
     std::time_t tt;
@@ -22,9 +39,12 @@ void test_RSAConstructor() {
 }
 
 void test_inverseModulo() {
-    BigInt c, modulo, u;
-    c.setValue(198);
-    modulo.setValue(252);
+    BigInt c, modulo, u, p, q;
+    c.setValue("80495A6A30CFFCEE332A0D86AA7C0F24");
+    p.setValue("E050C87B36235C2C37F6FEB828C07B53");
+    q.setValue("ACF29BE8D7535494E5698B85459950DB");
+    modulo = phiPrime(q, p);
+    //modulo.setValue("978ADBAD3C1E1578C42C7C2DCB5492D7527A42DB2CD571A471F2D3AD16CE7001");
     u = inverseModulo(c, modulo);
     std::cout << "inverse modulo calculated as: " << u.toHex() << std::endl;
 }
@@ -66,8 +86,8 @@ void test_additionOperator() {
 
 void test_minusOperator() {
     BigInt a, b, c;
-    a.setValue("3");
-    b.setValue("476");
+    a.setValue("0");
+    b.setValue("3");
     //b.reverseSign();
     c = a - b;
     std::cout << "submission result: " << c.toHex() << std::endl;
@@ -75,8 +95,8 @@ void test_minusOperator() {
 
 void test_multiplicationOperator() {
     BigInt a, b, c;
-    a.setValue(283918273);
-    b.setValue(294627182);
+    a.setValue("E050C87B36235C2C37F6FEB828C07B53");
+    b.setValue("ACF29BE8D7535494E5698B85459950DB");
     c = a * b;
     std::cout << "multiplication result: " << c.toHex() << std::endl;
     b.reverseSign();

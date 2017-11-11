@@ -127,6 +127,7 @@ BigInt operator+(const BigInt& lop, const BigInt& rop) {
 	if(carry != 0) 
 		result.put(carry);
     if(lop.isNegative() && rop.isNegative()) result.reverseSign();
+    result.trim();
 	return result;
 }
 
@@ -189,6 +190,8 @@ BigInt operator-(const BigInt& lop, const BigInt& rop) {
 	}
     if(carry == 1) {
         std::cout << "This code should never be executed as well" << std::endl;
+        std::cout << "lop: " << lop.toHex() << std::endl;
+        std::cout << "rop: " << rop.toHex() << std::endl;
         result.reverseSign();
     }
 	result.trim();
@@ -243,6 +246,7 @@ BigInt operator*(const BigInt& lop, const BigInt& rop) {
 	}
     if(lop.isNegative() && !rop.isNegative()) result.reverseSign();
     if(!lop.isNegative() && rop.isNegative()) result.reverseSign();
+    result.trim();
 	return result;
 }
 
@@ -338,6 +342,7 @@ BigInt operator%(const BigInt& lop, const BigInt& divider) {
             dividen = dividen - multiplyOneDigit(divider, quot);
         }
     }
+    dividen.trim();
     return dividen;
 }
 
