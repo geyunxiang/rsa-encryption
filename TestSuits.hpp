@@ -12,6 +12,9 @@
 #include "BigInt.h"
 #include "myRSA.hpp"
 
+void test_hex2str();
+void test_str2hex();
+void test_RSAStringEncryptionDecryption();
 void test_RSABigIntEncryptionDecryption();
 void test_RSAConstructor();
 void test_inverseModulo();

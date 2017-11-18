@@ -73,6 +73,7 @@ void BigInt::setValue(unsigned int value) {
 
 // init BigInt from string or reset its value
 void BigInt::setValue(std::string value) {
+    value.erase(std::remove(value.begin(), value.end(), '+'), value.end());
 	unsigned int buf;
 	values = std::vector<unsigned int>();
     values.reserve(RESERVED_LENGTH);

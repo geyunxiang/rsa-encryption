@@ -9,8 +9,11 @@
 
 int main(int argc, char const *argv[]) {
     BigInt a, b, c, d, p, q, s;
+    //test_hex2str();
+    //test_str2hex();
+    test_RSAStringEncryptionDecryption();
     //test_inverseModulo();
-    test_RSABigIntEncryptionDecryption();
+    //test_RSABigIntEncryptionDecryption();
     //test_RSAConstructor();
     //test_multiplicationOperator();
     //test_minusOperator();

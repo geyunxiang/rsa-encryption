@@ -9,6 +9,35 @@
 #include "TestSuits.hpp"
 #include <iostream>
 
+void test_hex2str() {
+    std::string a("6d6563"); // mec
+    std::cout << "a: " << a << std::endl;
+    std::string b = hex2str(a);
+    std::cout << "b: " << b << std::endl;
+}
+
+void test_str2hex() {
+    std::string a("1234");
+    std::cout << "a: " << a << std::endl;
+    std::string b = str2hex(a);
+    std::cout << "b: " << b << std::endl;
+}
+
+void test_RSAStringEncryptionDecryption() {
+    MyRSAClass rsaClass(128);
+    std::cout << "RSA Class built\n";
+    std::cout << "RSA public key: " << rsaClass.publicKey.toHex() << std::endl;
+    std::cout << "RSA private key: " << rsaClass.getPrivateKey().toHex() << std::endl;
+    std::cout << "RSA modulo N: " << rsaClass.moduloN.toHex() << std::endl;
+    std::cout << "RSA prime p: " << rsaClass.getP().toHex() << std::endl;
+    std::cout << "RSA prime q: " << rsaClass.getQ().toHex() << std::endl;
+    std::string plainText("This is a test string."), encryptedString, decryptedString;
+    encryptedString = rsaClass.encryptPlainText(plainText);
+    std::cout << "Encrypted string: " << encryptedString << std::endl;
+    decryptedString = rsaClass.decryptCypherText(encryptedString);
+    std::cout << "Decrypted string: " << decryptedString << std::endl;
+}
+
 void test_RSABigIntEncryptionDecryption() {
     MyRSAClass rsaClass(128);
     std::cout << "RSA Class built\n";

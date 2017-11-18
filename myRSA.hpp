@@ -38,6 +38,9 @@ private:
     BigInt p; // big prime used to calculate moduloN
     BigInt q;
 };
+std::string hex2str(std::string hex);
+std::string str2hex(std::string str); // convert a string to its hex value in string
+char* uint2Chars(unsigned int a);
 
 // calculate the inverse of e with the specified modulo
 BigInt inverseModulo(BigInt e, BigInt modulo);

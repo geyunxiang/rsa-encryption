@@ -8,6 +8,7 @@
 
 #include "myRSA.hpp"
 #include <iostream>
+#include <sstream>
 
 #define DEBUG true
 
@@ -188,6 +189,63 @@ BigInt MyRSAClass::decryptNumber(BigInt cypher) {
     return pow(cypher, privateKey, moduloN);
 }
 
+std::string MyRSAClass::encryptPlainText(std::string plainText) {
+    std::string result, plainHex;
+    plainHex = str2hex(plainText);
+    BigInt plainNum, cypherNum;
+    plainNum.setValue(plainHex);
+    cypherNum = this->encryptNumber(plainNum);
+    result = cypherNum.toHex();
+    return result;
+}
+
+std::string MyRSAClass::decryptCypherText(std::string cypherText) {
+    std::string result, plainhex;
+    BigInt cypherNum, plainNum;
+    cypherNum.setValue(cypherText);
+    std::cout << "cypher num: " << cypherNum.toHex() << std::endl;
+    plainNum = this->decryptNumber(cypherNum);
+    plainhex = plainNum.toHex();
+    std::cout << "decrypted plain hex: " << plainhex << std::endl;
+    result = hex2str(plainhex);
+    return result;
+}
+
+std::string hex2str(std::string hex) {
+    std::string result;
+    hex.erase(std::remove(hex.begin(), hex.end(), '+'), hex.end());
+    char buf;
+    unsigned int temp;
+    for(int i = 0; i < static_cast<int>(hex.size()); i += 2) {
+        std::stringstream ss;
+        ss << std::hex << hex.substr(i, 2); // 2 hex per char
+        ss >> temp;
+        buf = static_cast<char>(temp);
+        result.push_back(buf);
+        ss.str("");
+    }
+    if(hex.size() % 2 != 0) {
+        std::cout << "This code should not be executed forever!!" << std::endl;
+    }
+    return result;
+}
+
+std::string str2hex(std::string str) {
+    char* hexchars = new char[str.length()*2];
+    for(int i = 0; i < str.length(); i++)
+        sprintf(&hexchars[i*2], "%02X", static_cast<unsigned int>(str[i]));
+    std::string result(hexchars);
+    return result;
+}
+
+char* uint2Chars(unsigned int a) {
+    char* result = new char[4];
+    result[0] = static_cast<char>(a >> 24);
+    result[1] = static_cast<char>(a >> 16);
+    result[2] = static_cast<char>(a >> 8);
+    result[3] = static_cast<char>(a);
+    return result;
+}
 
 // For debug usage only
 BigInt MyRSAClass::getPrivateKey() {
