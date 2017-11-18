@@ -191,36 +191,31 @@ BigInt MyRSAClass::decryptNumber(BigInt cypher) {
 
 std::string MyRSAClass::encryptPlainText(std::string plainText) {
     std::string result, plainHex;
-    plainHex = str2hex(plainText);
     BigInt plainNum, cypherNum;
-    plainNum.setValue(plainHex);
+    plainNum.setValue(str2hex(plainText));
     cypherNum = this->encryptNumber(plainNum);
-    result = cypherNum.toHex();
-    return result;
+    return cypherNum.toHex();
 }
 
 std::string MyRSAClass::decryptCypherText(std::string cypherText) {
     std::string result, plainhex;
     BigInt cypherNum, plainNum;
     cypherNum.setValue(cypherText);
-    std::cout << "cypher num: " << cypherNum.toHex() << std::endl;
+    //std::cout << "cypher num: " << cypherNum.toHex() << std::endl;
     plainNum = this->decryptNumber(cypherNum);
-    plainhex = plainNum.toHex();
-    std::cout << "decrypted plain hex: " << plainhex << std::endl;
-    result = hex2str(plainhex);
-    return result;
+    return hex2str(plainNum.toHex());
 }
 
 std::string hex2str(std::string hex) {
     std::string result;
     hex.erase(std::remove(hex.begin(), hex.end(), '+'), hex.end());
     char buf;
-    unsigned int temp;
+    unsigned int uintBuf;
     for(int i = 0; i < static_cast<int>(hex.size()); i += 2) {
         std::stringstream ss;
         ss << std::hex << hex.substr(i, 2); // 2 hex per char
-        ss >> temp;
-        buf = static_cast<char>(temp);
+        ss >> uintBuf;
+        buf = static_cast<char>(uintBuf);
         result.push_back(buf);
         ss.str("");
     }
