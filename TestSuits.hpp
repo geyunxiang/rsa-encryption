@@ -9,7 +9,7 @@
 #ifndef TestSuits_hpp
 #define TestSuits_hpp
 
-#include "BigInt.h"
+#include "BigInt.hpp"
 #include "myRSA.hpp"
 
 void test_hex2str();

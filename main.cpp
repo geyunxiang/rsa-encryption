@@ -3,7 +3,7 @@
 #include <ctime>
 #include <random>
 
-#include "BigInt.h"
+#include "BigInt.hpp"
 #include "myRSA.hpp"
 #include "TestSuits.hpp"
 

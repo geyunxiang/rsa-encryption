@@ -31,7 +31,7 @@ void test_RSAStringEncryptionDecryption() {
     std::cout << "RSA modulo N: " << rsaClass.moduloN.toHex() << std::endl;
     std::cout << "RSA prime p: " << rsaClass.getP().toHex() << std::endl;
     std::cout << "RSA prime q: " << rsaClass.getQ().toHex() << std::endl;
-    std::string plainText("This is a test string."), encryptedString, decryptedString;
+    std::string plainText("This is another test string."), encryptedString, decryptedString;
     encryptedString = rsaClass.encryptPlainText(plainText);
     std::cout << "Encrypted string: " << encryptedString << std::endl;
     decryptedString = rsaClass.decryptCypherText(encryptedString);

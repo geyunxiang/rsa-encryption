@@ -10,7 +10,7 @@
 #define myRSA_hpp
 
 #include <iostream>
-#include "BigInt.h"
+#include "BigInt.hpp"
 
 // two primes, p, q
 //   -> one public key n = pq
